@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Player {
+  id             String   @id @default(uuid())
+  name           String   @unique
+  country        String
+  role           String
+  formats        String[]
+  battingHand    String   @map("batting_hand")
+  bowlingStyle   String   @map("bowling_style")
+  popularityTier Int      @default(3) @map("popularity_tier")
+  bornYear       Int      @map("born_year")
+  debutYear      Int      @map("debut_year")
+  retired        Boolean  @default(false)
+  totalMatches   Int      @map("total_matches")
+  totalRuns      Int      @map("total_runs")
+  battingAvg     Float    @map("batting_avg")
+  strikeRate     Float    @map("strike_rate")
+  totalWickets   Int      @map("total_wickets")
+  bowlingAvg     Float    @map("bowling_avg")
+  economyRate    Float    @default(0) @map("economy_rate")
+  iplTeam        String   @default("None") @map("ipl_team")
+  photoUrl       String?  @map("photo_url")
+  verified       Boolean  @default(false)
+  source         String   @default("manual")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@map("players")
+}
+
+model QuizQuestion {
+  id            String   @id @default(uuid())
+  question      String   @unique
+  options       Json
+  correctAnswer Int      @map("correct_answer")
+  category      String
+  difficulty    String
+  formatTag     String   @map("format_tag")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@map("quiz_questions")
+}
+
+model GameSession {
+  id          String   @id @default(uuid())
+  anonymousId String?  @map("anonymous_id")
+  mode        String
+  score       Int
+  details     Json
+  completedAt DateTime @default(now()) @map("completed_at")
+
+  @@map("game_sessions")
+}
+
+model PlayersRaw {
+  id           String   @id @default(uuid())
+  name         String
+  country      String
+  role         String?
+  formats      String[]
+  battingHand  String?  @map("batting_hand")
+  bowlingStyle String?  @map("bowling_style")
+  bornYear     Int?     @map("born_year")
+  debutYear    Int?     @map("debut_year")
+  retired      Boolean?
+  totalMatches Int?     @map("total_matches")
+  totalRuns    Int?     @map("total_runs")
+  battingAvg   Float?   @map("batting_avg")
+  strikeRate   Float?   @map("strike_rate")
+  totalWickets Int?     @map("total_wickets")
+  bowlingAvg   Float?   @map("bowling_avg")
+  economyRate  Float?   @map("economy_rate")
+  iplTeam      String?  @map("ipl_team")
+  source       String
+  rawData      Json?    @map("raw_data")
+  verified     Boolean  @default(false)
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@map("players_raw")
+}
