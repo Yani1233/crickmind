@@ -1,7 +1,7 @@
 {
   "buildCommand": "cd client && npm run build",
   "outputDirectory": "client/dist",
-  "installCommand": "npm install && cd server && npx prisma generate",
+  "installCommand": "npm install && npx prisma generate --schema=server/prisma/schema.prisma",
   "functions": {
     "api/index.ts": {
       "runtime": "@vercel/node@3"
