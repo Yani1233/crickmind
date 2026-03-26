@@ -32,11 +32,15 @@ export function ScorePopup({ popups }: ScorePopupProps) {
         {popups.map((p) => (
           <motion.div
             key={p.id}
-            initial={{ opacity: 1, y: 0 }}
-            animate={{ opacity: 0, y: -60 }}
+            initial={{ opacity: 1, y: 0, scale: 0.8 }}
+            animate={{ opacity: 0, y: -80, scale: 1.2 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1 }}
-            className="text-[#FFD600] font-bold text-2xl"
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="font-black text-3xl"
+            style={{
+              color: "var(--gold-accent)",
+              textShadow: "0 0 16px rgba(255, 214, 0, 0.5), 0 0 32px rgba(255, 214, 0, 0.2)",
+            }}
           >
             +{p.points}
           </motion.div>

@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 export const scoreRouter = Router();
 
 const scoreSchema = z.object({
+  userId: z.string().uuid().optional(),
   anonymousId: z.string().optional(),
   mode: z.enum(["who-am-i", "stat-attack", "quick-fire", "higher-or-lower"]),
   score: z.number().int().min(0),
@@ -20,6 +21,7 @@ scoreRouter.post(
       const body = scoreSchema.parse(req.body);
       const session = await prisma.gameSession.create({
         data: {
+          userId: body.userId,
           anonymousId: body.anonymousId,
           mode: body.mode,
           score: body.score,

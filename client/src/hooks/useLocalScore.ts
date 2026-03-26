@@ -29,7 +29,7 @@ export function useLocalScore() {
   const [scores, setScores] = useState<ModeScores>(readScores);
   const [totalScore, setTotalScore] = useState<number>(readTotal);
 
-  const recordScore = useCallback((mode: GameMode, score: number) => {
+  const recordScore = useCallback((mode: GameMode, score: number, userId?: string) => {
     setScores((prev) => {
       const modeData = prev[mode] ?? { highScore: 0, gamesPlayed: 0 };
       const updated: ModeScores = {
@@ -48,6 +48,15 @@ export function useLocalScore() {
       localStorage.setItem(TOTAL_KEY, String(newTotal));
       return newTotal;
     });
+
+    if (userId) {
+      const apiBase = import.meta.env.VITE_API_URL ?? "";
+      fetch(`${apiBase}/api/scores`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, mode, score, details: {} }),
+      }).catch(() => {});
+    }
   }, []);
 
   const getHighScore = useCallback(

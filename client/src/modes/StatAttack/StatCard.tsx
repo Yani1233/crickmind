@@ -19,21 +19,49 @@ export function StatCard({ label, value, revealed, index }: StatCardProps) {
       >
         {/* Face-down side (?) */}
         <div
-          className="absolute inset-0 flex items-center justify-center bg-[#16213E] rounded-xl border border-white/10"
+          className="absolute inset-0 flex items-center justify-center glass-card"
           style={{ backfaceVisibility: "hidden" }}
         >
-          <span className="text-3xl font-black text-white/20">?</span>
+          <motion.span
+            animate={{
+              opacity: [0.2, 0.4, 0.2],
+              scale: [1, 1.05, 1],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="text-3xl font-black"
+            style={{ color: "var(--text-muted)" }}
+          >
+            ?
+          </motion.span>
         </div>
 
         {/* Face-up side (stat) */}
         <div
-          className="absolute inset-0 flex flex-col items-center justify-center bg-[#16213E] rounded-xl border border-[#FFD600]/30"
-          style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+          className="absolute inset-0 flex flex-col items-center justify-center glass-card gradient-border-gold"
+          style={{
+            backfaceVisibility: "hidden",
+            transform: "rotateY(180deg)",
+          }}
         >
-          <span className="text-white/50 text-xs uppercase tracking-wider mb-1">
+          <span
+            className="text-xs uppercase tracking-wider mb-1"
+            style={{ color: "var(--text-muted)" }}
+          >
             {label}
           </span>
-          <span className="text-[#FFD600] text-xl font-bold">{value}</span>
+          <span
+            className="text-xl font-bold"
+            style={{
+              color: "var(--gold-accent)",
+              textShadow: "0 0 8px rgba(255, 214, 0, 0.3)",
+            }}
+          >
+            {value}
+          </span>
         </div>
       </motion.div>
     </div>

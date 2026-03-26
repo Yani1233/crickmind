@@ -31,19 +31,26 @@ export function PlayerCard({ player, showStats = true, onClick, className = "" }
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
       onClick={onClick}
-      className={`bg-[#16213E] rounded-2xl p-5 border border-white/10 ${
-        onClick ? "cursor-pointer hover:border-[#FFD600]/50 transition-colors" : ""
+      className={`glass-card p-5 ${
+        onClick ? "cursor-pointer hover:border-[rgba(255,214,0,0.4)] transition-all" : ""
       } ${className}`}
     >
       <div className="flex items-center gap-4 mb-3">
-        <div className="w-14 h-14 rounded-full bg-[#1B5E20]/30 flex items-center justify-center text-lg font-bold text-[#4CAF50] shrink-0">
+        <div
+          className="w-14 h-14 rounded-full flex items-center justify-center text-lg font-bold shrink-0"
+          style={{
+            background: "var(--gradient-primary)",
+            color: "var(--text-primary)",
+            boxShadow: "var(--shadow-glow-green)",
+          }}
+        >
           {getInitials(player.name)}
         </div>
         <div>
-          <h3 className="font-bold text-white text-lg">
+          <h3 className="font-bold text-lg" style={{ color: "var(--text-primary)" }}>
             {FLAG_MAP[player.country] ?? "🏏"} {player.name}
           </h3>
-          <p className="text-white/50 text-sm">
+          <p className="text-sm" style={{ color: "var(--text-muted)" }}>
             {player.role} · {player.country}
           </p>
         </div>
@@ -51,17 +58,17 @@ export function PlayerCard({ player, showStats = true, onClick, className = "" }
 
       {showStats && (
         <div className="grid grid-cols-3 gap-2 text-center text-xs">
-          <div className="bg-white/5 rounded-lg p-2">
-            <div className="text-white/40">Matches</div>
-            <div className="font-bold text-white">{player.totalMatches}</div>
+          <div className="glass-card-light p-2">
+            <div style={{ color: "var(--text-muted)" }}>Matches</div>
+            <div className="font-bold" style={{ color: "var(--text-primary)" }}>{player.totalMatches}</div>
           </div>
-          <div className="bg-white/5 rounded-lg p-2">
-            <div className="text-white/40">Runs</div>
-            <div className="font-bold text-white">{player.totalRuns}</div>
+          <div className="glass-card-light p-2">
+            <div style={{ color: "var(--text-muted)" }}>Runs</div>
+            <div className="font-bold" style={{ color: "var(--text-primary)" }}>{player.totalRuns}</div>
           </div>
-          <div className="bg-white/5 rounded-lg p-2">
-            <div className="text-white/40">Avg</div>
-            <div className="font-bold text-white">{player.battingAvg.toFixed(1)}</div>
+          <div className="glass-card-light p-2">
+            <div style={{ color: "var(--text-muted)" }}>Avg</div>
+            <div className="font-bold" style={{ color: "var(--text-primary)" }}>{player.battingAvg.toFixed(1)}</div>
           </div>
         </div>
       )}

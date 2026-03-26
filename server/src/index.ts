@@ -5,6 +5,9 @@ import { errorHandler } from "./middleware/errorHandler.js";
 import { playerRouter } from "./routes/players.js";
 import { questionRouter } from "./routes/questions.js";
 import { scoreRouter } from "./routes/scores.js";
+import { userRouter } from "./routes/users.js";
+import { leaderboardRouter } from "./routes/leaderboard.js";
+import { roomRouter } from "./routes/rooms.js";
 
 const app = express();
 const port = process.env.PORT ?? 3001;
@@ -27,6 +30,9 @@ app.get("/api/health", (_req, res) => {
 app.use("/api/players", playerRouter);
 app.use("/api/questions", questionRouter);
 app.use("/api/scores", scoreRouter);
+app.use("/api/users", userRouter);
+app.use("/api/leaderboard", leaderboardRouter);
+app.use("/api/rooms", roomRouter);
 
 app.use(errorHandler);
 

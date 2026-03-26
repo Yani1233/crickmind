@@ -116,6 +116,32 @@ export interface ApiError {
   code: string;
 }
 
+export interface UserProfile {
+  id: string;
+  username: string;
+  createdAt: string;
+}
+
+export interface UserWithStats extends UserProfile {
+  totalScore: number;
+  totalGames: number;
+  modeStats: Partial<Record<GameMode, { highScore: number; gamesPlayed: number; totalScore: number }>>;
+}
+
+export interface LeaderboardEntry {
+  rank: number;
+  userId: string;
+  username: string;
+  totalScore: number;
+  highScore: number;
+  gamesPlayed: number;
+}
+
+export interface RoomInfo {
+  code: string;
+  members: Array<{ userId: string; username: string }>;
+}
+
 // Region mapping for Who Am I
 export const REGION_MAP: Record<string, string> = {
   IND: "South Asia",

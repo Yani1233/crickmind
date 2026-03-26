@@ -83,14 +83,22 @@ function PlayerSide({
   const statValue = player[statCategory.key as keyof Player] as number;
   const isClickable = revealState === "hidden";
 
-  const borderColor =
-    revealState === "revealed" && isCorrect !== null
-      ? isCorrect
-        ? "border-green-500"
-        : "border-red-500"
-      : isClickable
-        ? "border-white/10 hover:border-[#FFD600]/50"
-        : "border-white/10";
+  const getBorderStyle = (): React.CSSProperties => {
+    if (revealState === "revealed" && isCorrect !== null) {
+      if (isCorrect) {
+        return {
+          borderColor: "rgba(76, 175, 80, 0.6)",
+          boxShadow: "0 0 20px rgba(76, 175, 80, 0.2), var(--shadow-md)",
+        };
+      }
+      return {
+        borderColor: "rgba(239, 68, 68, 0.4)",
+        boxShadow: "var(--shadow-md)",
+        opacity: 0.7,
+      };
+    }
+    return {};
+  };
 
   const slideDirection = side === "A" ? -1 : 1;
 
@@ -104,19 +112,31 @@ function PlayerSide({
         exit={{ opacity: 0, x: slideDirection * -200 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
         onClick={isClickable ? onClick : undefined}
-        className={`flex-1 min-w-0 bg-[#16213E] rounded-2xl p-5 border-2 transition-colors ${borderColor} ${
-          isClickable ? "cursor-pointer" : ""
+        className={`flex-1 min-w-0 glass-card p-5 border-2 transition-all ${
+          isClickable ? "cursor-pointer hover:border-[rgba(255,214,0,0.4)]" : ""
         }`}
+        style={getBorderStyle()}
+        whileHover={isClickable ? { y: -2 } : undefined}
       >
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-14 h-14 rounded-full bg-[#1B5E20]/30 flex items-center justify-center text-lg font-bold text-[#4CAF50] shrink-0">
+          <div
+            className="w-14 h-14 rounded-full flex items-center justify-center text-lg font-bold shrink-0"
+            style={{
+              background: "var(--gradient-primary)",
+              color: "var(--text-primary)",
+              boxShadow: "var(--shadow-glow-green)",
+            }}
+          >
             {getInitials(player.name)}
           </div>
           <div className="min-w-0">
-            <h3 className="font-bold text-white text-lg truncate">
+            <h3
+              className="font-bold text-lg truncate"
+              style={{ color: "var(--text-primary)" }}
+            >
               {FLAG_MAP[player.country] ?? "\u{1F3CF}"} {player.name}
             </h3>
-            <p className="text-white/50 text-sm">
+            <p className="text-sm" style={{ color: "var(--text-muted)" }}>
               {player.role} · {player.country}
             </p>
           </div>
@@ -127,7 +147,8 @@ function PlayerSide({
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="text-white/30 text-sm font-medium py-3"
+              className="text-sm font-medium py-3"
+              style={{ color: "var(--text-muted)" }}
             >
               Tap to choose
             </motion.div>
@@ -140,10 +161,19 @@ function PlayerSide({
               transition={{ type: "spring", stiffness: 400, damping: 20 }}
               className="py-2"
             >
-              <div className="text-white/40 text-xs uppercase tracking-wider mb-1">
+              <div
+                className="text-xs uppercase tracking-wider mb-1"
+                style={{ color: "var(--text-muted)" }}
+              >
                 {statCategory.label}
               </div>
-              <div className="text-3xl font-black text-[#FFD600]">
+              <div
+                className="text-3xl font-black"
+                style={{
+                  color: "var(--gold-accent)",
+                  textShadow: "0 0 12px rgba(255, 214, 0, 0.3)",
+                }}
+              >
                 <AnimatedNumber target={statValue} />
               </div>
             </motion.div>
@@ -154,9 +184,12 @@ function PlayerSide({
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`mt-3 text-center text-sm font-bold ${
-              isCorrect ? "text-green-400" : "text-red-400"
-            }`}
+            className={`mt-3 text-center text-sm font-bold`}
+            style={{
+              color: isCorrect
+                ? "var(--match-green)"
+                : "rgb(239, 68, 68)",
+            }}
           >
             {isCorrect ? "HIGHER" : "LOWER"}
           </motion.div>
@@ -166,7 +199,8 @@ function PlayerSide({
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="mt-1 text-center text-xs text-white/40"
+            className="mt-1 text-center text-xs"
+            style={{ color: "var(--text-muted)" }}
           >
             Your pick
           </motion.div>
@@ -209,11 +243,19 @@ export function VersusCard({
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 500, damping: 25 }}
-          className="w-12 h-12 rounded-full bg-[#FFD600] flex items-center justify-center text-[#0A0E1A] font-black text-lg"
+          className="w-14 h-14 rounded-full flex items-center justify-center font-black text-lg"
+          style={{
+            background: "var(--gradient-accent)",
+            color: "var(--bg-secondary)",
+            boxShadow: "var(--shadow-glow-gold)",
+          }}
         >
           VS
         </motion.div>
-        <div className="mt-2 text-white/60 text-xs font-medium text-center uppercase tracking-wider">
+        <div
+          className="mt-2 text-xs font-medium text-center uppercase tracking-wider"
+          style={{ color: "var(--text-secondary)" }}
+        >
           {statCategory.label}
         </div>
       </div>

@@ -15,9 +15,12 @@ export function GuessRow({ guess, index }: GuessRowProps) {
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: "easeOut" }}
-      className="bg-[#16213E] rounded-xl p-3 border border-white/10"
+      className="glass-card p-3"
     >
-      <div className="text-sm font-bold text-white mb-2 truncate">
+      <div
+        className="text-sm font-bold mb-2 truncate"
+        style={{ color: "var(--text-primary)" }}
+      >
         {guess.player.name}
       </div>
       <div className="grid grid-cols-7 gap-1.5">

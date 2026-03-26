@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { ModeCard } from "../components/ModeCard";
 import { useLocalScore } from "../hooks/useLocalScore";
 import { usePlayerCount } from "../api/players";
@@ -44,9 +45,13 @@ const MODES = [
 ];
 
 export function Hub() {
+  const navigate = useNavigate();
   const { totalScore, getHighScore } = useLocalScore();
   const { data: playerCount, isError: playerError } = usePlayerCount();
   const { data: questionCount, isError: questionError } = useQuestionCount();
+
+  const stored = localStorage.getItem("crickmind_user");
+  const username = stored ? JSON.parse(stored).username : null;
 
   const apiDown = playerError && questionError;
   const players = playerCount?.count ?? 0;
@@ -54,28 +59,72 @@ export function Hub() {
 
   return (
     <div className="min-h-screen p-4 max-w-2xl mx-auto">
+      {/* Hero Section */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center py-8"
       >
-        <h1 className="text-4xl font-black text-white mb-1">
-          🏏 Crick<span className="text-[#4CAF50]">Mind</span>
+        <h1 className="text-4xl font-black mb-1" style={{ color: "var(--text-primary)" }}>
+          🏏 Crick<span style={{ color: "var(--match-green)" }}>Mind</span>
         </h1>
-        <p className="text-white/50 text-sm mb-4">
-          Test your cricket knowledge
+        <p className="text-sm mb-6" style={{ color: "var(--text-muted)" }}>
+          {username
+            ? `Welcome back, ${username}`
+            : "Welcome to CrickMind"}
         </p>
-        <div className="inline-block bg-[#FFD600]/10 text-[#FFD600] font-bold px-4 py-2 rounded-xl text-sm">
-          Total Score: {totalScore}
+
+        {/* Total score glass card */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.1 }}
+          className="glass-card glow-gold inline-block px-8 py-4 mb-6"
+        >
+          <div className="text-xs uppercase tracking-wider mb-1" style={{ color: "var(--text-muted)" }}>
+            Total Score
+          </div>
+          <div
+            className="text-3xl font-black"
+            style={{
+              color: "var(--gold-accent)",
+              textShadow: "0 0 16px rgba(255, 214, 0, 0.3)",
+            }}
+          >
+            {totalScore}
+          </div>
+        </motion.div>
+
+        {/* Quick stats row */}
+        <div className="flex justify-center gap-4 mb-4">
+          <button
+            className="btn-ghost text-xs px-4 py-2"
+            onClick={() => navigate("/leaderboard")}
+          >
+            Leaderboard
+          </button>
+          <button
+            className="btn-ghost text-xs px-4 py-2"
+            onClick={() => navigate("/profile")}
+          >
+            Profile
+          </button>
         </div>
       </motion.div>
 
       {apiDown && (
-        <div className="bg-red-500/20 border border-red-500/40 text-red-300 rounded-xl p-4 mb-6 text-center text-sm">
+        <div
+          className="glass-card p-4 mb-6 text-center text-sm"
+          style={{
+            borderColor: "rgba(239, 68, 68, 0.4)",
+            color: "rgba(252, 165, 165, 1)",
+          }}
+        >
           Connection error — check your internet and make sure the server is running.
           <button
             onClick={() => window.location.reload()}
-            className="block mx-auto mt-2 bg-red-500/30 hover:bg-red-500/50 px-4 py-1 rounded-lg transition-colors"
+            className="btn-ghost block mx-auto mt-2 px-4 py-1 text-xs"
+            style={{ borderColor: "rgba(239, 68, 68, 0.3)" }}
           >
             Retry
           </button>
@@ -86,7 +135,7 @@ export function Hub() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
-        className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+        className="grid grid-cols-1 sm:grid-cols-2 gap-5"
       >
         {MODES.map((mode) => (
           <ModeCard
@@ -105,7 +154,7 @@ export function Hub() {
         ))}
       </motion.div>
 
-      <p className="text-center text-white/20 text-xs mt-12">
+      <p className="text-center text-xs mt-12" style={{ color: "var(--text-muted)" }}>
         CrickMind — Built with love for cricket
       </p>
     </div>

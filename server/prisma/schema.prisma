@@ -49,14 +49,44 @@ model QuizQuestion {
   @@map("quiz_questions")
 }
 
+model User {
+  id        String        @id @default(uuid())
+  username  String        @unique
+  createdAt DateTime      @default(now()) @map("created_at")
+  sessions  GameSession[]
+  roomMemberships RoomMember[]
+  @@map("users")
+}
+
+model Room {
+  id        String       @id @default(uuid())
+  code      String       @unique @db.VarChar(8)
+  name      String       @default("")
+  createdAt DateTime     @default(now()) @map("created_at")
+  members   RoomMember[]
+  @@map("rooms")
+}
+
+model RoomMember {
+  id       String   @id @default(uuid())
+  userId   String   @map("user_id")
+  roomId   String   @map("room_id")
+  joinedAt DateTime @default(now()) @map("joined_at")
+  user     User     @relation(fields: [userId], references: [id])
+  room     Room     @relation(fields: [roomId], references: [id])
+  @@unique([userId, roomId])
+  @@map("room_members")
+}
+
 model GameSession {
   id          String   @id @default(uuid())
+  userId      String?  @map("user_id")
   anonymousId String?  @map("anonymous_id")
   mode        String
   score       Int
   details     Json
   completedAt DateTime @default(now()) @map("completed_at")
-
+  user        User?    @relation(fields: [userId], references: [id])
   @@map("game_sessions")
 }
 
