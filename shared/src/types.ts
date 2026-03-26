@@ -25,7 +25,11 @@ export type GameMode =
   | "who-am-i"
   | "stat-attack"
   | "quick-fire"
-  | "higher-or-lower";
+  | "higher-or-lower"
+  | "connections"
+  | "timeline"
+  | "mystery-xi"
+  | "auction-arena";
 
 export interface Player {
   id: string;

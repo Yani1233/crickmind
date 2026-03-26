@@ -117,3 +117,41 @@ model PlayersRaw {
 
   @@map("players_raw")
 }
+
+model ConnectionPuzzle {
+  id         String   @id @default(uuid())
+  difficulty String
+  groups     Json
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@map("connection_puzzles")
+}
+
+model TimelineEvent {
+  id          String @id @default(uuid())
+  description String @unique
+  year        Int
+  category    String
+
+  @@map("timeline_events")
+}
+
+model MysterySquad {
+  id          String @id @default(uuid())
+  title       String @unique
+  description String
+  players     Json
+  difficulty  String
+
+  @@map("mystery_squads")
+}
+
+model AuctionEntry {
+  id          String @id @default(uuid())
+  playerName  String @map("player_name")
+  year        Int
+  team        String
+  priceCrores Float  @map("price_crores")
+
+  @@map("auction_entries")
+}

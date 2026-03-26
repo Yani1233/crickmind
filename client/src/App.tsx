@@ -9,6 +9,11 @@ import { WhoAmIGame } from "./modes/WhoAmI/WhoAmIGame";
 import { StatAttackGame } from "./modes/StatAttack/StatAttackGame";
 import { QuickFireGame } from "./modes/QuickFire/QuickFireGame";
 import { HigherOrLowerGame } from "./modes/HigherOrLower/HigherOrLowerGame";
+import { ConnectionsGame } from "./modes/Connections/ConnectionsGame";
+import { TimelineGame } from "./modes/Timeline/TimelineGame";
+import { MysteryXIGame } from "./modes/MysteryXI/MysteryXIGame";
+import { AuctionArenaGame } from "./modes/AuctionArena/AuctionArenaGame";
+import { Leaderboard } from "./pages/Leaderboard";
 import type { ReactNode } from "react";
 
 const queryClient = new QueryClient({
@@ -78,12 +83,42 @@ export function App() {
                 }
               />
               <Route
+                path="/connections"
+                element={
+                  <RequireAuth>
+                    <ConnectionsGame />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/timeline"
+                element={
+                  <RequireAuth>
+                    <TimelineGame />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/mystery-xi"
+                element={
+                  <RequireAuth>
+                    <MysteryXIGame />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/auction-arena"
+                element={
+                  <RequireAuth>
+                    <AuctionArenaGame />
+                  </RequireAuth>
+                }
+              />
+              <Route
                 path="/leaderboard"
                 element={
                   <RequireAuth>
-                    <div className="min-h-screen p-4 max-w-2xl mx-auto text-center pt-20 text-white/50">
-                      Leaderboard coming soon
-                    </div>
+                    <Leaderboard />
                   </RequireAuth>
                 }
               />

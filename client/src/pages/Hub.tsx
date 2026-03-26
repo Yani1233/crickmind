@@ -42,6 +42,42 @@ const MODES = [
     minPlayers: 2,
     minQuestions: 0,
   },
+  {
+    title: "Connections",
+    description: "Group 16 cricket items into 4 hidden categories",
+    icon: "🔗",
+    route: "/connections",
+    mode: "connections" as const,
+    minPlayers: 0,
+    minQuestions: 0,
+  },
+  {
+    title: "Timeline",
+    description: "Put cricket events in the correct chronological order",
+    icon: "📅",
+    route: "/timeline",
+    mode: "timeline" as const,
+    minPlayers: 0,
+    minQuestions: 0,
+  },
+  {
+    title: "Mystery XI",
+    description: "Name all 11 players in the mystery squad",
+    icon: "🏏",
+    route: "/mystery-xi",
+    mode: "mystery-xi" as const,
+    minPlayers: 0,
+    minQuestions: 0,
+  },
+  {
+    title: "Auction Arena",
+    description: "Guess the IPL auction price for each player",
+    icon: "💰",
+    route: "/auction-arena",
+    mode: "auction-arena" as const,
+    minPlayers: 0,
+    minQuestions: 0,
+  },
 ];
 
 export function Hub() {

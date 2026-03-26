@@ -8,6 +8,10 @@ import { scoreRouter } from "./routes/scores.js";
 import { userRouter } from "./routes/users.js";
 import { leaderboardRouter } from "./routes/leaderboard.js";
 import { roomRouter } from "./routes/rooms.js";
+import { connectionRouter } from "./routes/connections.js";
+import { timelineRouter } from "./routes/timeline.js";
+import { mysteryRouter } from "./routes/mystery.js";
+import { auctionRouter } from "./routes/auction.js";
 
 const app = express();
 const port = process.env.PORT ?? 3001;
@@ -33,6 +37,10 @@ app.use("/api/scores", scoreRouter);
 app.use("/api/users", userRouter);
 app.use("/api/leaderboard", leaderboardRouter);
 app.use("/api/rooms", roomRouter);
+app.use("/api/connections", connectionRouter);
+app.use("/api/timeline", timelineRouter);
+app.use("/api/mystery", mysteryRouter);
+app.use("/api/auction", auctionRouter);
 
 app.use(errorHandler);
 

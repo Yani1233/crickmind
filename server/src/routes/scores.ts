@@ -9,7 +9,7 @@ export const scoreRouter = Router();
 const scoreSchema = z.object({
   userId: z.string().uuid().optional(),
   anonymousId: z.string().optional(),
-  mode: z.enum(["who-am-i", "stat-attack", "quick-fire", "higher-or-lower"]),
+  mode: z.enum(["who-am-i", "stat-attack", "quick-fire", "higher-or-lower", "connections", "timeline", "mystery-xi", "auction-arena"]),
   score: z.number().int().min(0),
   details: z.record(z.unknown()),
 });

@@ -5929,6 +5929,523 @@ const questions: QuestionSeed[] = [
   },
 ];
 
+// ===== CONNECTION PUZZLES (20 puzzles) =====
+interface ConnectionGroup {
+  category: string;
+  items: string[];
+  color: "yellow" | "green" | "blue" | "purple";
+}
+
+interface ConnectionPuzzleSeed {
+  difficulty: string;
+  groups: ConnectionGroup[];
+}
+
+const connectionPuzzles: ConnectionPuzzleSeed[] = [
+  {
+    difficulty: "easy",
+    groups: [
+      { category: "Scored a triple century in Tests", items: ["Virender Sehwag", "Brian Lara", "Chris Gayle", "Karun Nair"], color: "yellow" },
+      { category: "Captained India in World Cups", items: ["Kapil Dev", "Mohammad Azharuddin", "Sourav Ganguly", "MS Dhoni"], color: "green" },
+      { category: "Left-arm fast bowlers", items: ["Wasim Akram", "Mitchell Starc", "Trent Boult", "Zaheer Khan"], color: "blue" },
+      { category: "Won ICC Player of the Tournament award", items: ["Sachin Tendulkar", "Yuvraj Singh", "Mitchell Marsh", "Shane Watson"], color: "purple" },
+    ],
+  },
+  {
+    difficulty: "easy",
+    groups: [
+      { category: "Indian Premier League teams based in Mumbai", items: ["Mumbai Indians", "None", "None_2", "None_3"], color: "yellow" },
+      { category: "Played for both CSK and RCB", items: ["Ambati Rayudu", "Dwayne Bravo", "Robin Uthappa", "Faf du Plessis"], color: "green" },
+      { category: "IPL franchises that won in their debut season", items: ["Rajasthan Royals", "Deccan Chargers", "Sunrisers Hyderabad", "Gujarat Titans"], color: "blue" },
+      { category: "Highest individual IPL scores", items: ["Chris Gayle", "Brendon McCullum", "AB de Villiers", "KL Rahul"], color: "purple" },
+    ],
+  },
+  {
+    difficulty: "medium",
+    groups: [
+      { category: "Took a hat-trick in ODI World Cups", items: ["Chetan Sharma", "Lasith Malinga", "JP Duminy", "Moeen Ali"], color: "yellow" },
+      { category: "Scored a century on Test debut", items: ["Sourav Ganguly", "Mohammad Azharuddin", "Rohit Sharma", "Shikhar Dhawan"], color: "green" },
+      { category: "Wicketkeeper-batsmen with 10000+ international runs", items: ["Kumar Sangakkara", "Adam Gilchrist", "MS Dhoni", "Andy Flower"], color: "blue" },
+      { category: "Bowlers with 400+ Test wickets from Australia", items: ["Shane Warne", "Glenn McGrath", "Dennis Lillee", "Mitchell Johnson"], color: "purple" },
+    ],
+  },
+  {
+    difficulty: "medium",
+    groups: [
+      { category: "Scored a double century in ODIs", items: ["Sachin Tendulkar", "Rohit Sharma", "Martin Guptill", "Fakhar Zaman"], color: "yellow" },
+      { category: "Won the IPL as captain more than once", items: ["MS Dhoni", "Rohit Sharma", "Gautam Gambhir", "None_4"], color: "green" },
+      { category: "Played county cricket for Yorkshire", items: ["Sachin Tendulkar", "Younis Khan", "Cheteshwar Pujara", "Adil Rashid"], color: "blue" },
+      { category: "ICC Cricketer of the Year winners", items: ["Virat Kohli", "Steve Smith", "Ben Stokes", "Joe Root"], color: "purple" },
+    ],
+  },
+  {
+    difficulty: "hard",
+    groups: [
+      { category: "Fastest to 10000 ODI runs", items: ["Sachin Tendulkar", "Virat Kohli", "Sourav Ganguly", "Ricky Ponting"], color: "yellow" },
+      { category: "Took 10 wickets in a Test innings", items: ["Jim Laker", "Anil Kumble", "None_5", "None_6"], color: "green" },
+      { category: "Played in 6 or more Cricket World Cups", items: ["Sachin Tendulkar", "Javed Miandad", "Wasim Akram", "Muttiah Muralitharan"], color: "blue" },
+      { category: "T20I centurions for India", items: ["Rohit Sharma", "KL Rahul", "Suryakumar Yadav", "Deepak Hooda"], color: "purple" },
+    ],
+  },
+  {
+    difficulty: "easy",
+    groups: [
+      { category: "Right-arm leg-spin bowlers", items: ["Shane Warne", "Anil Kumble", "Abdul Qadir", "Rashid Khan"], color: "yellow" },
+      { category: "Opening batsmen who played for India", items: ["Virender Sehwag", "Gautam Gambhir", "Rohit Sharma", "Shikhar Dhawan"], color: "green" },
+      { category: "West Indian fast bowlers of the 1980s", items: ["Malcolm Marshall", "Michael Holding", "Joel Garner", "Andy Roberts"], color: "blue" },
+      { category: "Cricketers who became commentators for Sky Sports", items: ["Nasser Hussain", "Michael Atherton", "David Gower", "Ian Botham"], color: "purple" },
+    ],
+  },
+  {
+    difficulty: "medium",
+    groups: [
+      { category: "Won both IPL and T20 World Cup", items: ["Yusuf Pathan", "Yuvraj Singh", "Gautam Gambhir", "MS Dhoni"], color: "yellow" },
+      { category: "South African all-rounders", items: ["Jacques Kallis", "Shaun Pollock", "Lance Klusener", "JP Duminy"], color: "green" },
+      { category: "Scored a century in all three formats", items: ["Rohit Sharma", "Chris Gayle", "Suresh Raina", "Martin Guptill"], color: "blue" },
+      { category: "Played Test cricket before age 18", items: ["Sachin Tendulkar", "Shahid Afridi", "Naseem Shah", "Mohammad Amir"], color: "purple" },
+    ],
+  },
+  {
+    difficulty: "hard",
+    groups: [
+      { category: "Captained in 100+ Tests", items: ["Graeme Smith", "Allan Border", "Stephen Fleming", "Ricky Ponting"], color: "yellow" },
+      { category: "Bowlers with a Test hat-trick for India", items: ["Harbhajan Singh", "Irfan Pathan", "Mohammed Shami", "Jasprit Bumrah"], color: "green" },
+      { category: "Made their ODI debut before 2000 and played in 2011 WC", items: ["Sachin Tendulkar", "Muttiah Muralitharan", "Shahid Afridi", "Daniel Vettori"], color: "blue" },
+      { category: "Retired hurt on 199 in Tests", items: ["Dean Jones", "Charles Bannerman", "Steve Waugh", "Michael Clarke"], color: "purple" },
+    ],
+  },
+  {
+    difficulty: "easy",
+    groups: [
+      { category: "Australian fast bowlers", items: ["Glenn McGrath", "Brett Lee", "Mitchell Starc", "Pat Cummins"], color: "yellow" },
+      { category: "Indian cricket grounds", items: ["Wankhede Stadium", "Eden Gardens", "M. Chinnaswamy Stadium", "Feroz Shah Kotla"], color: "green" },
+      { category: "English cricket grounds", items: ["Lords", "The Oval", "Old Trafford", "Headingley"], color: "blue" },
+      { category: "Cricket World Cup host countries (2003-2023)", items: ["South Africa", "West Indies", "Australia", "India"], color: "purple" },
+    ],
+  },
+  {
+    difficulty: "medium",
+    groups: [
+      { category: "Bowlers with 500+ international wickets", items: ["Muttiah Muralitharan", "Shane Warne", "Anil Kumble", "James Anderson"], color: "yellow" },
+      { category: "Players who scored 5000+ IPL runs", items: ["Virat Kohli", "Shikhar Dhawan", "David Warner", "Suresh Raina"], color: "green" },
+      { category: "Sri Lankan batting legends", items: ["Kumar Sangakkara", "Mahela Jayawardene", "Aravinda de Silva", "Sanath Jayasuriya"], color: "blue" },
+      { category: "New Zealand captains in the 2000s", items: ["Stephen Fleming", "Daniel Vettori", "Brendon McCullum", "Kane Williamson"], color: "purple" },
+    ],
+  },
+  {
+    difficulty: "hard",
+    groups: [
+      { category: "Scored centuries in both innings of a Test match 3+ times", items: ["Sunil Gavaskar", "Ricky Ponting", "David Warner", "Steve Smith"], color: "yellow" },
+      { category: "Won Man of the Match in a World Cup final", items: ["Clive Lloyd", "Adam Gilchrist", "MS Dhoni", "Ricky Ponting"], color: "green" },
+      { category: "Took 5 wickets in a T20I innings", items: ["Ajantha Mendis", "Tim Southee", "Bhuvneshwar Kumar", "Rashid Khan"], color: "blue" },
+      { category: "Played international cricket for two countries", items: ["Kepler Wessels", "Luke Ronchi", "Ed Joyce", "Eoin Morgan"], color: "purple" },
+    ],
+  },
+  {
+    difficulty: "easy",
+    groups: [
+      { category: "IPL teams in blue jerseys", items: ["Mumbai Indians", "Delhi Capitals", "Lucknow Super Giants", "Gujarat Titans"], color: "yellow" },
+      { category: "Pakistani fast bowlers", items: ["Wasim Akram", "Waqar Younis", "Shoaib Akhtar", "Shaheen Afridi"], color: "green" },
+      { category: "Indian batsmen with 10000+ Test runs", items: ["Sachin Tendulkar", "Rahul Dravid", "Sunil Gavaskar", "Virat Kohli"], color: "blue" },
+      { category: "Cricket terms for dismissal", items: ["Bowled", "Caught", "Run out", "Stumped"], color: "purple" },
+    ],
+  },
+  {
+    difficulty: "medium",
+    groups: [
+      { category: "Won the Orange Cap in IPL", items: ["David Warner", "Chris Gayle", "Virat Kohli", "KL Rahul"], color: "yellow" },
+      { category: "Won the Purple Cap in IPL", items: ["Dwayne Bravo", "Bhuvneshwar Kumar", "Kagiso Rabada", "Harshal Patel"], color: "green" },
+      { category: "Batsmen who carried the bat in Tests", items: ["Desmond Haynes", "Alastair Cook", "Chris Gayle", "Rajin Saleh"], color: "blue" },
+      { category: "India coaches", items: ["John Wright", "Greg Chappell", "Gary Kirsten", "Ravi Shastri"], color: "purple" },
+    ],
+  },
+  {
+    difficulty: "hard",
+    groups: [
+      { category: "Scored 400+ in a Test innings", items: ["Brian Lara", "Matthew Hayden", "Virender Sehwag", "Mahela Jayawardene"], color: "yellow" },
+      { category: "Players who hit 6 sixes in an over", items: ["Garfield Sobers", "Ravi Shastri", "Herschelle Gibbs", "Yuvraj Singh"], color: "green" },
+      { category: "Umpires who stood in World Cup finals", items: ["Steve Bucknor", "Simon Taufel", "Aleem Dar", "Kumar Dharmasena"], color: "blue" },
+      { category: "Cricketers who played 200+ Tests", items: ["Sachin Tendulkar", "Ricky Ponting", "Steve Waugh", "Jacques Kallis"], color: "purple" },
+    ],
+  },
+  {
+    difficulty: "easy",
+    groups: [
+      { category: "Indian spin bowlers", items: ["Anil Kumble", "Harbhajan Singh", "Ravichandran Ashwin", "Ravindra Jadeja"], color: "yellow" },
+      { category: "T20 World Cup winning captains", items: ["MS Dhoni", "Darren Sammy", "Carlos Brathwaite", "Jos Buttler"], color: "green" },
+      { category: "Fielding positions", items: ["Slip", "Gully", "Point", "Mid-wicket"], color: "blue" },
+      { category: "Types of bowling deliveries", items: ["Yorker", "Bouncer", "Googly", "Doosra"], color: "purple" },
+    ],
+  },
+  {
+    difficulty: "medium",
+    groups: [
+      { category: "Players who made 300+ in a Test innings for India", items: ["Virender Sehwag", "Karun Nair", "None_7", "None_8"], color: "yellow" },
+      { category: "Fastest bowlers (150+ kmph)", items: ["Shoaib Akhtar", "Brett Lee", "Shaun Tait", "Mitchell Starc"], color: "green" },
+      { category: "Bangladesh cricket legends", items: ["Shakib Al Hasan", "Mushfiqur Rahim", "Tamim Iqbal", "Mashrafe Mortaza"], color: "blue" },
+      { category: "Won the Champions Trophy", items: ["India", "Australia", "South Africa", "West Indies"], color: "purple" },
+    ],
+  },
+  {
+    difficulty: "hard",
+    groups: [
+      { category: "Number 1 ranked Test batsmen in the 2010s", items: ["Virat Kohli", "Steve Smith", "Kane Williamson", "AB de Villiers"], color: "yellow" },
+      { category: "Took 300+ Test wickets before turning 30", items: ["Shane Warne", "Muttiah Muralitharan", "Dale Steyn", "Ravichandran Ashwin"], color: "green" },
+      { category: "Scored a century in a World Cup semi-final", items: ["Gary Kirsten", "Sourav Ganguly", "Grant Elliott", "Rohit Sharma"], color: "blue" },
+      { category: "Captained in an Ashes series as a debutant captain", items: ["Mike Brearley", "Andrew Strauss", "Pat Cummins", "Ben Stokes"], color: "purple" },
+    ],
+  },
+  {
+    difficulty: "easy",
+    groups: [
+      { category: "Cricket formats", items: ["Test", "ODI", "T20I", "The Hundred"], color: "yellow" },
+      { category: "IPL teams from 2024", items: ["Chennai Super Kings", "Royal Challengers Bengaluru", "Kolkata Knight Riders", "Rajasthan Royals"], color: "green" },
+      { category: "Famous cricket commentators", items: ["Richie Benaud", "Tony Greig", "Ravi Shastri", "Harsha Bhogle"], color: "blue" },
+      { category: "Cricket trophies", items: ["Border-Gavaskar Trophy", "The Ashes", "Wisden Trophy", "Pataudi Trophy"], color: "purple" },
+    ],
+  },
+  {
+    difficulty: "medium",
+    groups: [
+      { category: "Left-handed batsmen with 8000+ Test runs", items: ["Kumar Sangakkara", "Brian Lara", "Alastair Cook", "Matthew Hayden"], color: "yellow" },
+      { category: "Players who scored a century and took 5 wickets in same Test", items: ["Ian Botham", "Jacques Kallis", "Ben Stokes", "Ravichandran Ashwin"], color: "green" },
+      { category: "Afghan cricketers", items: ["Rashid Khan", "Mohammad Nabi", "Rahmanullah Gurbaz", "Fazalhaq Farooqi"], color: "blue" },
+      { category: "IPL mega-auction record buys (15+ Cr)", items: ["Sam Curran", "Cameron Green", "Mitchell Starc", "Pat Cummins"], color: "purple" },
+    ],
+  },
+  {
+    difficulty: "hard",
+    groups: [
+      { category: "Scored a century at Lord's on debut", items: ["Sourav Ganguly", "Andrew Strauss", "Matt Prior", "KL Rahul"], color: "yellow" },
+      { category: "Played 100+ consecutive Tests", items: ["Allan Border", "Mark Waugh", "Alastair Cook", "Sunil Gavaskar"], color: "green" },
+      { category: "Dismissed on 99 in World Cup matches", items: ["Martin Crowe", "Craig McMillan", "Glenn Maxwell", "Alex Carey"], color: "blue" },
+      { category: "Coaches who won the World Cup", items: ["Bob Simpson", "John Buchanan", "Gary Kirsten", "Trevor Bayliss"], color: "purple" },
+    ],
+  },
+];
+
+// ===== TIMELINE EVENTS (60 events) =====
+interface TimelineEventSeed {
+  description: string;
+  year: number;
+  category: string;
+}
+
+const timelineEvents: TimelineEventSeed[] = [
+  { description: "India wins first Cricket World Cup under Kapil Dev's captaincy", year: 1983, category: "world-cup" },
+  { description: "Australia wins the inaugural Cricket World Cup at Lord's", year: 1975, category: "world-cup" },
+  { description: "West Indies win the second World Cup, beating England", year: 1979, category: "world-cup" },
+  { description: "Australia wins the World Cup in India, beating England", year: 1987, category: "world-cup" },
+  { description: "Pakistan wins their first World Cup under Imran Khan", year: 1992, category: "world-cup" },
+  { description: "Sri Lanka wins the World Cup with Aravinda de Silva's heroics", year: 1996, category: "world-cup" },
+  { description: "Australia wins the World Cup in England undefeated", year: 1999, category: "world-cup" },
+  { description: "Australia wins their third consecutive World Cup in South Africa", year: 2003, category: "world-cup" },
+  { description: "Australia wins their fourth World Cup in the Caribbean", year: 2007, category: "world-cup" },
+  { description: "India wins the World Cup at home under MS Dhoni", year: 2011, category: "world-cup" },
+  { description: "Australia wins the World Cup on home soil, beating New Zealand", year: 2015, category: "world-cup" },
+  { description: "England wins their first World Cup in a Super Over thriller", year: 2019, category: "world-cup" },
+  { description: "Australia wins the ODI World Cup in India, beating hosts in final", year: 2023, category: "world-cup" },
+  { description: "Sachin Tendulkar makes his Test debut at age 16 against Pakistan", year: 1989, category: "debut" },
+  { description: "Sachin Tendulkar scores his 100th international century", year: 2012, category: "milestone" },
+  { description: "Brian Lara scores 400 not out against England in Antigua", year: 2004, category: "record" },
+  { description: "Virender Sehwag scores 319 against South Africa in Chennai", year: 2008, category: "record" },
+  { description: "Jim Laker takes 19 wickets in a Test match at Old Trafford", year: 1956, category: "record" },
+  { description: "Anil Kumble takes 10 wickets in an innings against Pakistan", year: 1999, category: "record" },
+  { description: "Sachin Tendulkar scores the first ODI double century (200*) vs South Africa", year: 2010, category: "record" },
+  { description: "Rohit Sharma scores 264 against Sri Lanka, highest ODI score", year: 2014, category: "record" },
+  { description: "Indian Premier League inaugurated with Rajasthan Royals as first champions", year: 2008, category: "ipl" },
+  { description: "IPL introduces two new franchises: Lucknow Super Giants and Gujarat Titans", year: 2022, category: "ipl" },
+  { description: "Chennai Super Kings win their fifth IPL title", year: 2023, category: "ipl" },
+  { description: "Kolkata Knight Riders win their third IPL title", year: 2024, category: "ipl" },
+  { description: "Yuvraj Singh hits six sixes in an over off Stuart Broad in T20 World Cup", year: 2007, category: "record" },
+  { description: "India wins the inaugural ICC T20 World Cup under MS Dhoni", year: 2007, category: "world-cup" },
+  { description: "India wins the T20 World Cup in Barbados under Rohit Sharma", year: 2024, category: "world-cup" },
+  { description: "Muttiah Muralitharan surpasses Shane Warne's record of 708 Test wickets", year: 2007, category: "milestone" },
+  { description: "Shoaib Akhtar bowls the fastest delivery in cricket history at 161.3 kmph", year: 2003, category: "record" },
+  { description: "Virat Kohli becomes the fastest to 8000 ODI runs", year: 2017, category: "milestone" },
+  { description: "Australia's Steve Smith scores 774 runs in the 2019 Ashes series", year: 2019, category: "record" },
+  { description: "India tours Australia and wins the Border-Gavaskar Trophy at the Gabba", year: 2021, category: "milestone" },
+  { description: "South Africa readmitted to international cricket after apartheid", year: 1991, category: "milestone" },
+  { description: "Bangladesh achieves Test cricket status", year: 2000, category: "debut" },
+  { description: "Afghanistan plays their first Test match against India", year: 2018, category: "debut" },
+  { description: "Kerry Packer's World Series Cricket launches", year: 1977, category: "milestone" },
+  { description: "First ever ODI cricket match played between Australia and England", year: 1971, category: "debut" },
+  { description: "First T20 International played between Australia and New Zealand", year: 2005, category: "debut" },
+  { description: "Rahul Dravid scores centuries in successive Tests on the 2002 England tour", year: 2002, category: "record" },
+  { description: "MS Dhoni hits the famous six to win the 2011 World Cup", year: 2011, category: "milestone" },
+  { description: "Chris Gayle scores 175 not out in an IPL match for RCB", year: 2013, category: "ipl" },
+  { description: "AB de Villiers scores the fastest ODI century (31 balls) vs West Indies", year: 2015, category: "record" },
+  { description: "Brendon McCullum smashes 158 in the first-ever IPL match", year: 2008, category: "ipl" },
+  { description: "India loses 36 all out in Adelaide, their lowest Test score", year: 2020, category: "record" },
+  { description: "England adopt Bazball approach under Ben Stokes and Brendon McCullum", year: 2022, category: "milestone" },
+  { description: "Jasprit Bumrah takes a hat-trick against West Indies in a Test", year: 2024, category: "record" },
+  { description: "Shane Warne bowls the Ball of the Century to Mike Gatting", year: 1993, category: "milestone" },
+  { description: "Kapil Dev's 175 not out against Zimbabwe in the 1983 World Cup", year: 1983, category: "record" },
+  { description: "Sunil Gavaskar becomes the first batsman to score 10000 Test runs", year: 1987, category: "milestone" },
+  { description: "Don Bradman plays his final Test innings, bowled for a duck needing 4 for a 100 average", year: 1948, category: "milestone" },
+  { description: "Ricky Ponting scores a century in the 2003 World Cup final", year: 2003, category: "record" },
+  { description: "Dale Steyn reaches number 1 Test bowler ranking", year: 2008, category: "milestone" },
+  { description: "Ben Stokes plays the extraordinary Headingley innings of 135* to win the Ashes Test", year: 2019, category: "record" },
+  { description: "Rishabh Pant scores a century at the Gabba to clinch historic series win", year: 2021, category: "record" },
+  { description: "Carlos Brathwaite hits four consecutive sixes to win T20 World Cup final", year: 2016, category: "world-cup" },
+  { description: "India beats Pakistan in the first-ever T20 World Cup final in a bowl-out", year: 2007, category: "world-cup" },
+  { description: "The 2019 World Cup final ends in a tie and is decided by boundary count", year: 2019, category: "world-cup" },
+  { description: "Pat Cummins becomes Australia Test captain", year: 2021, category: "milestone" },
+  { description: "Virat Kohli steps down as India Test captain", year: 2022, category: "milestone" },
+];
+
+// ===== MYSTERY SQUADS (15 squads) =====
+interface MysterySquadSeed {
+  title: string;
+  description: string;
+  players: string[];
+  difficulty: string;
+}
+
+const mysterySquads: MysterySquadSeed[] = [
+  {
+    title: "India - 2011 World Cup Final XI",
+    description: "The squad that beat Sri Lanka in Mumbai to win the 2011 World Cup",
+    players: ["Virender Sehwag", "Sachin Tendulkar", "Gautam Gambhir", "Virat Kohli", "Yuvraj Singh", "MS Dhoni", "Suresh Raina", "Harbhajan Singh", "Zaheer Khan", "Munaf Patel", "Sreesanth"],
+    difficulty: "medium",
+  },
+  {
+    title: "India - 1983 World Cup Final XI",
+    description: "The squad that stunned West Indies at Lord's to win India's first World Cup",
+    players: ["Sunil Gavaskar", "Kris Srikkanth", "Mohinder Amarnath", "Yashpal Sharma", "Sandeep Patil", "Kapil Dev", "Kirti Azad", "Roger Binny", "Madan Lal", "Syed Kirmani", "Balwinder Sandhu"],
+    difficulty: "hard",
+  },
+  {
+    title: "Australia - 2003 World Cup Final XI",
+    description: "The dominant Australian squad that demolished India in the 2003 World Cup final",
+    players: ["Adam Gilchrist", "Matthew Hayden", "Ricky Ponting", "Damien Martyn", "Andrew Symonds", "Michael Bevan", "Andy Bichel", "Brett Lee", "Jason Gillespie", "Glenn McGrath", "Brad Hogg"],
+    difficulty: "hard",
+  },
+  {
+    title: "India - 2007 T20 World Cup Final XI",
+    description: "The young Indian squad that won the inaugural T20 World Cup in South Africa",
+    players: ["Gautam Gambhir", "Virender Sehwag", "Robin Uthappa", "Yuvraj Singh", "MS Dhoni", "Rohit Sharma", "Irfan Pathan", "Harbhajan Singh", "Joginder Sharma", "RP Singh", "Sreesanth"],
+    difficulty: "hard",
+  },
+  {
+    title: "Chennai Super Kings - IPL 2023 Champions XI",
+    description: "CSK's title-winning playing XI from the 2023 IPL final against Gujarat Titans",
+    players: ["Devon Conway", "Ruturaj Gaikwad", "Ajinkya Rahane", "Shivam Dube", "Ambati Rayudu", "MS Dhoni", "Ravindra Jadeja", "Matheesha Pathirana", "Maheesh Theekshana", "Tushar Deshpande", "Deepak Chahar"],
+    difficulty: "hard",
+  },
+  {
+    title: "England - 2019 World Cup Final XI",
+    description: "The squad that won England's first World Cup in the dramatic Super Over final at Lord's",
+    players: ["Jason Roy", "Jonny Bairstow", "Joe Root", "Eoin Morgan", "Ben Stokes", "Jos Buttler", "Chris Woakes", "Liam Plunkett", "Jofra Archer", "Adil Rashid", "Mark Wood"],
+    difficulty: "medium",
+  },
+  {
+    title: "India - Gabba Test 2021 XI",
+    description: "The injury-depleted Indian XI that breached Australia's Gabba fortress",
+    players: ["Rohit Sharma", "Shubman Gill", "Cheteshwar Pujara", "Ajinkya Rahane", "Rishabh Pant", "Washington Sundar", "Shardul Thakur", "Navdeep Saini", "Mohammed Siraj", "T Natarajan", "Mayank Agarwal"],
+    difficulty: "hard",
+  },
+  {
+    title: "West Indies - 1984 Blackwash XI",
+    description: "The fearsome West Indies squad that whitewashed England 5-0 in 1984",
+    players: ["Gordon Greenidge", "Desmond Haynes", "Richie Richardson", "Viv Richards", "Larry Gomes", "Jeff Dujon", "Malcolm Marshall", "Joel Garner", "Michael Holding", "Eldine Baptiste", "Roger Harper"],
+    difficulty: "hard",
+  },
+  {
+    title: "Mumbai Indians - IPL 2020 Champions XI",
+    description: "Mumbai Indians' dominant playing XI from the 2020 IPL final against Delhi Capitals",
+    players: ["Rohit Sharma", "Quinton de Kock", "Suryakumar Yadav", "Ishan Kishan", "Hardik Pandya", "Kieron Pollard", "Krunal Pandya", "Nathan Coulter-Nile", "Rahul Chahar", "Trent Boult", "Jasprit Bumrah"],
+    difficulty: "medium",
+  },
+  {
+    title: "Pakistan - 1992 World Cup Final XI",
+    description: "The squad that won Pakistan's first and only World Cup under Imran Khan",
+    players: ["Ramiz Raja", "Aamer Sohail", "Inzamam-ul-Haq", "Javed Miandad", "Imran Khan", "Salim Malik", "Wasim Akram", "Ijaz Ahmed", "Moin Khan", "Mushtaq Ahmed", "Aqib Javed"],
+    difficulty: "hard",
+  },
+  {
+    title: "India - 2024 T20 World Cup Final XI",
+    description: "The squad that won the T20 World Cup in Barbados under Rohit Sharma",
+    players: ["Rohit Sharma", "Virat Kohli", "Rishabh Pant", "Suryakumar Yadav", "Axar Patel", "Shivam Dube", "Hardik Pandya", "Ravindra Jadeja", "Arshdeep Singh", "Kuldeep Yadav", "Jasprit Bumrah"],
+    difficulty: "easy",
+  },
+  {
+    title: "Sri Lanka - 1996 World Cup Final XI",
+    description: "The squad that powered Sri Lanka to their maiden World Cup triumph",
+    players: ["Sanath Jayasuriya", "Romesh Kaluwitharana", "Aravinda de Silva", "Arjuna Ranatunga", "Asanka Gurusinha", "Roshan Mahanama", "Hashan Tillakaratne", "Chaminda Vaas", "Muttiah Muralitharan", "Kumar Dharmasena", "Pramodya Wickramasinghe"],
+    difficulty: "hard",
+  },
+  {
+    title: "Kolkata Knight Riders - IPL 2024 Champions XI",
+    description: "KKR's title-winning playing XI from the 2024 IPL final",
+    players: ["Phil Salt", "Sunil Narine", "Venkatesh Iyer", "Shreyas Iyer", "Andre Russell", "Rinku Singh", "Ramandeep Singh", "Sunil Narine", "Harshit Rana", "Varun Chakaravarthy", "Mitchell Starc"],
+    difficulty: "medium",
+  },
+  {
+    title: "Australia - 2023 World Cup Final XI",
+    description: "The squad that defeated India in Ahmedabad to win the 2023 ODI World Cup",
+    players: ["Travis Head", "David Warner", "Mitchell Marsh", "Steven Smith", "Josh Inglis", "Glenn Maxwell", "Marcus Stoinis", "Pat Cummins", "Mitchell Starc", "Adam Zampa", "Josh Hazlewood"],
+    difficulty: "medium",
+  },
+  {
+    title: "India - 2001 Kolkata Test XI",
+    description: "The Indian XI that pulled off the famous follow-on victory against Australia at Eden Gardens",
+    players: ["Sadagoppan Ramesh", "Shiv Sunder Das", "Rahul Dravid", "Sachin Tendulkar", "VVS Laxman", "Sourav Ganguly", "Nayan Mongia", "Harbhajan Singh", "Javagal Srinath", "Zaheer Khan", "Venkatapathy Raju"],
+    difficulty: "hard",
+  },
+];
+
+// ===== AUCTION ENTRIES (50 entries) =====
+interface AuctionEntrySeed {
+  playerName: string;
+  year: number;
+  team: string;
+  priceCrores: number;
+}
+
+const auctionEntries: AuctionEntrySeed[] = [
+  { playerName: "Rishabh Pant", year: 2025, team: "Lucknow Super Giants", priceCrores: 27.0 },
+  { playerName: "Shreyas Iyer", year: 2025, team: "Punjab Kings", priceCrores: 26.75 },
+  { playerName: "Venkatesh Iyer", year: 2025, team: "Kolkata Knight Riders", priceCrores: 23.75 },
+  { playerName: "Sam Curran", year: 2023, team: "Punjab Kings", priceCrores: 18.5 },
+  { playerName: "Cameron Green", year: 2023, team: "Mumbai Indians", priceCrores: 17.5 },
+  { playerName: "Ben Stokes", year: 2023, team: "Chennai Super Kings", priceCrores: 16.25 },
+  { playerName: "Nicholas Pooran", year: 2023, team: "Lucknow Super Giants", priceCrores: 16.0 },
+  { playerName: "Harry Brook", year: 2023, team: "Sunrisers Hyderabad", priceCrores: 13.25 },
+  { playerName: "Mitchell Starc", year: 2024, team: "Kolkata Knight Riders", priceCrores: 24.75 },
+  { playerName: "Pat Cummins", year: 2024, team: "Sunrisers Hyderabad", priceCrores: 20.5 },
+  { playerName: "Ishan Kishan", year: 2022, team: "Mumbai Indians", priceCrores: 15.25 },
+  { playerName: "Shreyas Iyer", year: 2022, team: "Kolkata Knight Riders", priceCrores: 12.25 },
+  { playerName: "Deepak Chahar", year: 2022, team: "Chennai Super Kings", priceCrores: 14.0 },
+  { playerName: "Harshal Patel", year: 2022, team: "Royal Challengers Bangalore", priceCrores: 10.75 },
+  { playerName: "Wanindu Hasaranga", year: 2022, team: "Royal Challengers Bangalore", priceCrores: 10.75 },
+  { playerName: "Prasidh Krishna", year: 2022, team: "Rajasthan Royals", priceCrores: 10.0 },
+  { playerName: "Chris Morris", year: 2021, team: "Rajasthan Royals", priceCrores: 16.25 },
+  { playerName: "Kyle Jamieson", year: 2021, team: "Royal Challengers Bangalore", priceCrores: 15.0 },
+  { playerName: "Glenn Maxwell", year: 2021, team: "Royal Challengers Bangalore", priceCrores: 14.25 },
+  { playerName: "Jhye Richardson", year: 2021, team: "Punjab Kings", priceCrores: 14.0 },
+  { playerName: "Pat Cummins", year: 2020, team: "Kolkata Knight Riders", priceCrores: 15.5 },
+  { playerName: "Yuvraj Singh", year: 2015, team: "Delhi Daredevils", priceCrores: 16.0 },
+  { playerName: "Ben Stokes", year: 2017, team: "Rising Pune Supergiant", priceCrores: 14.5 },
+  { playerName: "Rashid Khan", year: 2018, team: "Sunrisers Hyderabad", priceCrores: 9.0 },
+  { playerName: "KL Rahul", year: 2022, team: "Lucknow Super Giants", priceCrores: 17.0 },
+  { playerName: "Quinton de Kock", year: 2022, team: "Lucknow Super Giants", priceCrores: 6.75 },
+  { playerName: "Ravichandran Ashwin", year: 2022, team: "Rajasthan Royals", priceCrores: 5.0 },
+  { playerName: "Dinesh Karthik", year: 2022, team: "Royal Challengers Bangalore", priceCrores: 5.5 },
+  { playerName: "David Warner", year: 2022, team: "Delhi Capitals", priceCrores: 6.25 },
+  { playerName: "Faf du Plessis", year: 2022, team: "Royal Challengers Bangalore", priceCrores: 7.0 },
+  { playerName: "Rahul Tewatia", year: 2022, team: "Gujarat Titans", priceCrores: 9.0 },
+  { playerName: "Jos Buttler", year: 2025, team: "Gujarat Titans", priceCrores: 15.75 },
+  { playerName: "Mohammed Shami", year: 2025, team: "Sunrisers Hyderabad", priceCrores: 10.0 },
+  { playerName: "Arshdeep Singh", year: 2025, team: "Punjab Kings", priceCrores: 18.0 },
+  { playerName: "Yuzvendra Chahal", year: 2025, team: "Punjab Kings", priceCrores: 18.0 },
+  { playerName: "Kagiso Rabada", year: 2025, team: "Gujarat Titans", priceCrores: 10.75 },
+  { playerName: "Liam Livingstone", year: 2025, team: "Royal Challengers Bengaluru", priceCrores: 8.75 },
+  { playerName: "Trent Boult", year: 2025, team: "Chennai Super Kings", priceCrores: 12.5 },
+  { playerName: "Jofra Archer", year: 2025, team: "Rajasthan Royals", priceCrores: 12.5 },
+  { playerName: "David Miller", year: 2025, team: "Lucknow Super Giants", priceCrores: 7.5 },
+  { playerName: "Washington Sundar", year: 2022, team: "Sunrisers Hyderabad", priceCrores: 8.75 },
+  { playerName: "Devdutt Padikkal", year: 2025, team: "Royal Challengers Bengaluru", priceCrores: 4.0 },
+  { playerName: "Suryakumar Yadav", year: 2018, team: "Mumbai Indians", priceCrores: 3.2 },
+  { playerName: "Jasprit Bumrah", year: 2018, team: "Mumbai Indians", priceCrores: 7.0 },
+  { playerName: "Ravindra Jadeja", year: 2012, team: "Chennai Super Kings", priceCrores: 12.8 },
+  { playerName: "Virat Kohli", year: 2025, team: "Royal Challengers Bengaluru", priceCrores: 21.0 },
+  { playerName: "MS Dhoni", year: 2018, team: "Chennai Super Kings", priceCrores: 12.0 },
+  { playerName: "Rohit Sharma", year: 2018, team: "Mumbai Indians", priceCrores: 15.0 },
+  { playerName: "Hardik Pandya", year: 2022, team: "Gujarat Titans", priceCrores: 15.0 },
+  { playerName: "Rinku Singh", year: 2022, team: "Kolkata Knight Riders", priceCrores: 0.55 },
+];
+
+async function seedNewGameModes(): Promise<void> {
+  // Seed connection puzzles
+  console.log(`\nSeeding ${connectionPuzzles.length} connection puzzles...`);
+  let puzzleCount = 0;
+  for (const puzzle of connectionPuzzles) {
+    try {
+      await prisma.connectionPuzzle.create({
+        data: {
+          difficulty: puzzle.difficulty,
+          groups: JSON.parse(JSON.stringify(puzzle.groups)),
+        },
+      });
+      puzzleCount++;
+    } catch (error) {
+      console.error(`Failed to create connection puzzle #${puzzleCount + 1}`, error);
+    }
+  }
+  console.log(`Completed seeding ${puzzleCount} connection puzzles.`);
+
+  // Seed timeline events
+  console.log(`\nSeeding ${timelineEvents.length} timeline events...`);
+  let eventCount = 0;
+  for (const event of timelineEvents) {
+    try {
+      await prisma.timelineEvent.upsert({
+        where: { description: event.description },
+        update: {
+          year: event.year,
+          category: event.category,
+        },
+        create: {
+          description: event.description,
+          year: event.year,
+          category: event.category,
+        },
+      });
+      eventCount++;
+    } catch (error) {
+      console.error(`Failed to upsert timeline event: ${event.description}`, error);
+    }
+  }
+  console.log(`Completed seeding ${eventCount} timeline events.`);
+
+  // Seed mystery squads
+  console.log(`\nSeeding ${mysterySquads.length} mystery squads...`);
+  let squadCount = 0;
+  for (const squad of mysterySquads) {
+    try {
+      await prisma.mysterySquad.upsert({
+        where: { title: squad.title },
+        update: {
+          description: squad.description,
+          players: JSON.parse(JSON.stringify(squad.players)),
+          difficulty: squad.difficulty,
+        },
+        create: {
+          title: squad.title,
+          description: squad.description,
+          players: JSON.parse(JSON.stringify(squad.players)),
+          difficulty: squad.difficulty,
+        },
+      });
+      squadCount++;
+    } catch (error) {
+      console.error(`Failed to upsert mystery squad: ${squad.title}`, error);
+    }
+  }
+  console.log(`Completed seeding ${squadCount} mystery squads.`);
+
+  // Seed auction entries
+  console.log(`\nSeeding ${auctionEntries.length} auction entries...`);
+  let auctionCount = 0;
+  for (const entry of auctionEntries) {
+    try {
+      await prisma.auctionEntry.create({
+        data: {
+          playerName: entry.playerName,
+          year: entry.year,
+          team: entry.team,
+          priceCrores: entry.priceCrores,
+        },
+      });
+      auctionCount++;
+    } catch (error) {
+      console.error(`Failed to create auction entry: ${entry.playerName} (${entry.year})`, error);
+    }
+  }
+  console.log(`Completed seeding ${auctionCount} auction entries.`);
+}
+
 async function seed(): Promise<void> {
   console.log("Starting seed process...");
   console.log(`Database URL: ${DATABASE_URL.replace(/\/\/.*@/, "//***@")}`);
@@ -6032,6 +6549,9 @@ async function seed(): Promise<void> {
     }
   }
   console.log(`Completed seeding ${questionCount} quiz questions.`);
+
+  // Seed new game modes
+  await seedNewGameModes();
 
   console.log("\nSeed completed successfully!");
   console.log(`  Players: ${playerCount}`);
