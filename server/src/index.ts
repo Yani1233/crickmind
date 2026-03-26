@@ -30,8 +30,11 @@ app.use("/api/scores", scoreRouter);
 
 app.use(errorHandler);
 
-app.listen(port, () => {
-  console.log(`CrickMind server running on port ${port}`);
-});
+// Only listen when running directly (not as serverless function)
+if (process.env.VERCEL !== "1") {
+  app.listen(port, () => {
+    console.log(`CrickMind server running on port ${port}`);
+  });
+}
 
 export default app;

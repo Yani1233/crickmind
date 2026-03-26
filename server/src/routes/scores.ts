@@ -23,7 +23,7 @@ scoreRouter.post(
           anonymousId: body.anonymousId,
           mode: body.mode,
           score: body.score,
-          details: body.details,
+          details: body.details as object,
         },
       });
       res.status(201).json({ data: session });
