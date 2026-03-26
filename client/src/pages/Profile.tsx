@@ -17,7 +17,8 @@ interface ModeStatEntry {
 
 interface ProfileData {
   id: string;
-  username: string;
+  email: string;
+  displayName: string;
   createdAt: string;
   totalScore: number;
   totalGames: number;
@@ -26,7 +27,7 @@ interface ProfileData {
 
 interface RoomData {
   code: string;
-  members: Array<{ userId: string; username: string }>;
+  members: Array<{ userId: string; displayName: string }>;
 }
 
 const MODE_CONFIG: Array<{ key: string; label: string; emoji: string }> = [
@@ -77,7 +78,8 @@ export function Profile() {
   const [copied, setCopied] = useState(false);
 
   const userId = user?.id ?? "";
-  const username = user?.username ?? "";
+  const displayName = user?.displayName ?? "";
+  const email = user?.email ?? "";
 
   const fetchProfile = useCallback(async () => {
     if (!userId) return;
@@ -88,7 +90,8 @@ export function Profile() {
     } catch {
       setProfile({
         id: userId,
-        username,
+        email,
+        displayName,
         createdAt: new Date().toISOString(),
         totalScore: 0,
         totalGames: 0,
@@ -97,7 +100,7 @@ export function Profile() {
     } finally {
       setProfileLoading(false);
     }
-  }, [userId, username]);
+  }, [userId, email, displayName]);
 
   const fetchRoom = useCallback(async () => {
     const storedCode = readStoredRoomCode();
@@ -249,14 +252,20 @@ export function Profile() {
                     boxShadow: "var(--shadow-glow-green)",
                   }}
                 >
-                  {username.charAt(0).toUpperCase()}
+                  {displayName.charAt(0).toUpperCase()}
                 </div>
                 <h2
                   className="text-2xl font-bold mb-1"
                   style={{ color: "var(--text-primary)" }}
                 >
-                  {username}
+                  {displayName}
                 </h2>
+                <p
+                  className="text-xs mb-1"
+                  style={{ color: "var(--text-secondary)" }}
+                >
+                  {email}
+                </p>
                 <p
                   className="text-xs mb-4"
                   style={{ color: "var(--text-muted)" }}
@@ -450,9 +459,9 @@ export function Profile() {
                             color: "var(--text-primary)",
                           }}
                         >
-                          {member.username.charAt(0).toUpperCase()}
+                          {member.displayName.charAt(0).toUpperCase()}
                         </div>
-                        {member.username}
+                        {member.displayName}
                       </div>
                     ))}
                   </div>

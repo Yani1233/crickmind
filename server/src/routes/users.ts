@@ -5,13 +5,14 @@ import { createOrGetUser, getUserProfile } from "../services/userService.js";
 export const userRouter = Router();
 
 const createUserSchema = z.object({
-  username: z.string().min(2).max(20).trim(),
+  email: z.string().email().max(100).trim(),
+  displayName: z.string().min(2).max(30).trim(),
 });
 
 userRouter.post("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { username } = createUserSchema.parse(req.body);
-    const result = await createOrGetUser(username);
+    const { email, displayName } = createUserSchema.parse(req.body);
+    const result = await createOrGetUser(email, displayName);
     res.status(result.isNew ? 201 : 200).json({ data: result });
   } catch (err) { next(err); }
 });

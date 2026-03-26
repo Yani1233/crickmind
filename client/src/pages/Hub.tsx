@@ -51,7 +51,7 @@ export function Hub() {
   const { data: questionCount, isError: questionError } = useQuestionCount();
 
   const stored = localStorage.getItem("crickmind_user");
-  const username = stored ? JSON.parse(stored).username : null;
+  const displayName = stored ? JSON.parse(stored).displayName : null;
 
   const apiDown = playerError && questionError;
   const players = playerCount?.count ?? 0;
@@ -65,12 +65,12 @@ export function Hub() {
         animate={{ opacity: 1, y: 0 }}
         className="text-center py-8"
       >
-        <h1 className="text-4xl font-black mb-1" style={{ color: "var(--text-primary)" }}>
-          🏏 Crick<span style={{ color: "var(--match-green)" }}>Mind</span>
+        <h1 className="text-4xl font-black mb-1">
+          <span className="gradient-text">CrickMind</span>
         </h1>
         <p className="text-sm mb-6" style={{ color: "var(--text-muted)" }}>
-          {username
-            ? `Welcome back, ${username}`
+          {displayName
+            ? `Welcome back, ${displayName}`
             : "Welcome to CrickMind"}
         </p>
 
@@ -80,6 +80,7 @@ export function Hub() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.1 }}
           className="glass-card glow-gold inline-block px-8 py-4 mb-6"
+          style={{ boxShadow: "var(--shadow-glow-gold), var(--shadow-glow-purple)" }}
         >
           <div className="text-xs uppercase tracking-wider mb-1" style={{ color: "var(--text-muted)" }}>
             Total Score

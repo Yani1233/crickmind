@@ -118,7 +118,8 @@ export interface ApiError {
 
 export interface UserProfile {
   id: string;
-  username: string;
+  email: string;
+  displayName: string;
   createdAt: string;
 }
 
@@ -131,7 +132,7 @@ export interface UserWithStats extends UserProfile {
 export interface LeaderboardEntry {
   rank: number;
   userId: string;
-  username: string;
+  displayName: string;
   totalScore: number;
   highScore: number;
   gamesPlayed: number;
@@ -139,7 +140,7 @@ export interface LeaderboardEntry {
 
 export interface RoomInfo {
   code: string;
-  members: Array<{ userId: string; username: string }>;
+  members: Array<{ userId: string; displayName: string }>;
 }
 
 // Region mapping for Who Am I

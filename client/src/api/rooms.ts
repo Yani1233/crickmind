@@ -2,7 +2,7 @@ import { apiFetch } from "./client";
 
 interface RoomInfo {
   code: string;
-  members: Array<{ userId: string; username: string }>;
+  members: Array<{ userId: string; displayName: string }>;
 }
 
 export async function createRoom(userId: string) {

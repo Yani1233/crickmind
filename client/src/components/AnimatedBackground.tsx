@@ -1,69 +1,103 @@
-import type { ReactNode } from "react";
+import { useMemo, type ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
 }
 
-function CricketBall({ className }: { className?: string }) {
-  return (
-    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" className={className}>
-      <circle cx="20" cy="20" r="18" stroke="currentColor" strokeWidth="1.5" />
-      <path d="M8 20 C14 8, 26 8, 32 20 C26 32, 14 32, 8 20Z" stroke="currentColor" strokeWidth="1" />
-    </svg>
-  );
+interface Star {
+  readonly x: number;
+  readonly y: number;
+  readonly size: number;
+  readonly color: string;
+  readonly duration: number;
+  readonly delay: number;
 }
 
-function Stumps({ className }: { className?: string }) {
-  return (
-    <svg width="36" height="50" viewBox="0 0 36 50" fill="none" className={className}>
-      <line x1="8" y1="6" x2="8" y2="50" stroke="currentColor" strokeWidth="1.5" />
-      <line x1="18" y1="6" x2="18" y2="50" stroke="currentColor" strokeWidth="1.5" />
-      <line x1="28" y1="6" x2="28" y2="50" stroke="currentColor" strokeWidth="1.5" />
-      <line x1="6" y1="6" x2="20" y2="6" stroke="currentColor" strokeWidth="1.5" />
-      <line x1="16" y1="6" x2="30" y2="6" stroke="currentColor" strokeWidth="1.5" />
-    </svg>
-  );
+interface ShootingStar {
+  readonly x: number;
+  readonly y: number;
+  readonly delay: number;
+  readonly duration: number;
 }
 
-function Bat({ className }: { className?: string }) {
-  return (
-    <svg width="24" height="60" viewBox="0 0 24 60" fill="none" className={className}>
-      <rect x="7" y="0" width="10" height="36" rx="4" stroke="currentColor" strokeWidth="1.5" />
-      <line x1="12" y1="36" x2="12" y2="58" stroke="currentColor" strokeWidth="2" />
-      <line x1="8" y1="58" x2="16" y2="58" stroke="currentColor" strokeWidth="1.5" />
-    </svg>
-  );
+function generateStars(count: number): readonly Star[] {
+  const colors = ["#ffffff", "#ffffff", "#ffffff", "#c4b5fd", "#c4b5fd", "#67e8f9"];
+  const stars: Star[] = [];
+
+  for (let i = 0; i < count; i++) {
+    const sizeRoll = Math.random();
+    const size = sizeRoll < 0.5 ? 1 : sizeRoll < 0.8 ? 2 : 3;
+
+    stars.push({
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      duration: 2 + Math.random() * 4,
+      delay: Math.random() * 5,
+    });
+  }
+
+  return stars;
 }
 
-const ELEMENTS = [
-  { Component: CricketBall, top: "8%", left: "5%", delay: "0s", animation: "float", opacity: 0.04 },
-  { Component: Stumps, top: "20%", left: "85%", delay: "2s", animation: "float-reverse", opacity: 0.03 },
-  { Component: Bat, top: "55%", left: "10%", delay: "4s", animation: "float-reverse", opacity: 0.05 },
-  { Component: CricketBall, top: "70%", left: "90%", delay: "1s", animation: "float", opacity: 0.04 },
-  { Component: Stumps, top: "40%", left: "50%", delay: "3s", animation: "float", opacity: 0.03 },
-  { Component: Bat, top: "85%", left: "70%", delay: "5s", animation: "float-reverse", opacity: 0.05 },
-  { Component: CricketBall, top: "15%", left: "45%", delay: "2.5s", animation: "float-reverse", opacity: 0.03 },
-  { Component: Stumps, top: "65%", left: "30%", delay: "1.5s", animation: "float", opacity: 0.04 },
-] as const;
+function generateShootingStars(count: number): readonly ShootingStar[] {
+  const shooting: ShootingStar[] = [];
+
+  for (let i = 0; i < count; i++) {
+    shooting.push({
+      x: 10 + Math.random() * 60,
+      y: 5 + Math.random() * 40,
+      delay: 3 + Math.random() * 10,
+      duration: 1 + Math.random() * 0.5,
+    });
+  }
+
+  return shooting;
+}
 
 export function AnimatedBackground({ children }: Props) {
+  const stars = useMemo(() => generateStars(65), []);
+  const shootingStars = useMemo(() => generateShootingStars(3), []);
+
   return (
     <div className="relative">
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        {ELEMENTS.map((el, i) => (
+        {stars.map((star, i) => (
           <div
-            key={i}
-            className="absolute text-white"
+            key={`star-${i}`}
             style={{
-              top: el.top,
-              left: el.left,
-              opacity: el.opacity,
-              animation: `${el.animation} 8s ease-in-out infinite`,
-              animationDelay: el.delay,
+              position: "absolute",
+              left: `${star.x}%`,
+              top: `${star.y}%`,
+              width: `${star.size}px`,
+              height: `${star.size}px`,
+              borderRadius: "50%",
+              backgroundColor: star.color,
+              opacity: 0.2,
+              animation: `twinkle ${star.duration}s ease-in-out infinite`,
+              animationDelay: `${star.delay}s`,
             }}
-          >
-            <el.Component />
-          </div>
+          />
+        ))}
+
+        {shootingStars.map((ss, i) => (
+          <div
+            key={`shooting-${i}`}
+            style={{
+              position: "absolute",
+              left: `${ss.x}%`,
+              top: `${ss.y}%`,
+              width: "2px",
+              height: "2px",
+              borderRadius: "50%",
+              backgroundColor: "#c4b5fd",
+              boxShadow: "0 0 4px 1px rgba(196, 181, 253, 0.4)",
+              opacity: 0,
+              animation: `shooting-star ${ss.duration}s ease-out infinite`,
+              animationDelay: `${ss.delay}s`,
+            }}
+          />
         ))}
       </div>
       <div className="relative z-10">{children}</div>

@@ -2,14 +2,28 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function createOrGetUser(username: string) {
-  const trimmed = username.trim();
-  // Case-insensitive lookup
-  const existing = await prisma.user.findFirst({
-    where: { username: { equals: trimmed, mode: "insensitive" } },
+export async function createOrGetUser(email: string, displayName: string) {
+  const normalizedEmail = email.trim().toLowerCase();
+  const trimmedName = displayName.trim();
+
+  const existing = await prisma.user.findUnique({
+    where: { email: normalizedEmail },
   });
-  if (existing) return { ...existing, isNew: false };
-  const user = await prisma.user.create({ data: { username: trimmed } });
+  if (existing) {
+    // Update display name if changed
+    if (existing.displayName !== trimmedName) {
+      const updated = await prisma.user.update({
+        where: { id: existing.id },
+        data: { displayName: trimmedName },
+      });
+      return { ...updated, isNew: false };
+    }
+    return { ...existing, isNew: false };
+  }
+
+  const user = await prisma.user.create({
+    data: { email: normalizedEmail, displayName: trimmedName },
+  });
   return { ...user, isNew: true };
 }
 

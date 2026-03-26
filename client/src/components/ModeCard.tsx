@@ -24,14 +24,14 @@ export function ModeCard({
 
   return (
     <motion.button
-      whileHover={disabled ? {} : { y: -2, boxShadow: "0 8px 32px rgba(0,0,0,0.5), 0 0 20px rgba(255, 214, 0, 0.1)" }}
+      whileHover={disabled ? {} : { y: -2, boxShadow: "0 8px 32px rgba(0,0,0,0.5), 0 0 20px rgba(139, 92, 246, 0.15), 0 0 40px rgba(6, 182, 212, 0.08)" }}
       whileTap={disabled ? {} : { scale: 0.98 }}
       onClick={() => !disabled && navigate(route)}
       disabled={disabled}
       className={
         disabled
           ? "w-full rounded-2xl p-6 text-left border transition-all opacity-40 cursor-not-allowed"
-          : "w-full glass-card p-6 text-left transition-all cursor-pointer hover:border-[rgba(255,214,0,0.3)]"
+          : "w-full glass-card p-6 text-left transition-all cursor-pointer hover:border-[rgba(139,92,246,0.3)]"
       }
       style={
         disabled
@@ -47,9 +47,9 @@ export function ModeCard({
           className="w-12 h-12 rounded-full flex items-center justify-center text-2xl"
           style={{
             background: disabled
-              ? "rgba(255, 255, 255, 0.05)"
+              ? "rgba(139, 92, 246, 0.05)"
               : "var(--gradient-primary)",
-            boxShadow: disabled ? "none" : "var(--shadow-glow-green)",
+            boxShadow: disabled ? "none" : "var(--shadow-glow-purple)",
           }}
         >
           {icon}
@@ -79,7 +79,7 @@ export function ModeCard({
             <span
               className="text-xs px-2 py-1 rounded-lg"
               style={{
-                background: "rgba(255, 255, 255, 0.05)",
+                background: "rgba(139, 92, 246, 0.05)",
                 color: "var(--text-muted)",
               }}
             >

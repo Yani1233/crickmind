@@ -11,7 +11,7 @@ export function Header({ title, score, streak }: HeaderProps) {
   const navigate = useNavigate();
 
   const stored = localStorage.getItem("crickmind_user");
-  const username = stored ? JSON.parse(stored).username : null;
+  const displayName = stored ? JSON.parse(stored).displayName : null;
 
   function handleSignOut() {
     localStorage.removeItem("crickmind_user");
@@ -74,7 +74,7 @@ export function Header({ title, score, streak }: HeaderProps) {
           </motion.div>
         )}
 
-        {username && (
+        {displayName && (
           <div className="flex items-center gap-2 ml-2">
             <div
               className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold"
@@ -84,7 +84,7 @@ export function Header({ title, score, streak }: HeaderProps) {
                 boxShadow: "var(--shadow-glow-green)",
               }}
             >
-              {username.charAt(0).toUpperCase()}
+              {displayName.charAt(0).toUpperCase()}
             </div>
             <button
               onClick={handleSignOut}

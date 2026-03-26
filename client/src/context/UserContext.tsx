@@ -9,13 +9,14 @@ import { apiFetch } from "../api/client";
 
 interface User {
   id: string;
-  username: string;
+  email: string;
+  displayName: string;
 }
 
 interface UserContextValue {
   user: User | null;
   isLoggedIn: boolean;
-  login: (username: string) => Promise<void>;
+  login: (email: string, displayName: string) => Promise<void>;
   logout: () => void;
   loading: boolean;
 }
@@ -27,8 +28,13 @@ function readStoredUser(): User | null {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw);
-    if (parsed && typeof parsed.id === "string" && typeof parsed.username === "string") {
-      return { id: parsed.id, username: parsed.username };
+    if (
+      parsed &&
+      typeof parsed.id === "string" &&
+      typeof parsed.email === "string" &&
+      typeof parsed.displayName === "string"
+    ) {
+      return { id: parsed.id, email: parsed.email, displayName: parsed.displayName };
     }
     return null;
   } catch {
@@ -50,15 +56,15 @@ export function UserProvider({ children }: { children: ReactNode }) {
     setLoading(false);
   }, []);
 
-  async function login(username: string): Promise<void> {
-    const result = await apiFetch<{ id: string; username: string; isNew: boolean }>(
+  async function login(email: string, displayName: string): Promise<void> {
+    const result = await apiFetch<{ id: string; email: string; displayName: string; isNew: boolean }>(
       "/users",
       {
         method: "POST",
-        body: JSON.stringify({ username }),
+        body: JSON.stringify({ email, displayName }),
       }
     );
-    const newUser: User = { id: result.id, username: result.username };
+    const newUser: User = { id: result.id, email: result.email, displayName: result.displayName };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(newUser));
     setUser(newUser);
   }

@@ -4,7 +4,7 @@ import { apiFetch } from "./client";
 interface LeaderboardEntry {
   rank: number;
   userId: string;
-  username: string;
+  displayName: string;
   totalScore: number;
   highScore: number;
   gamesPlayed: number;

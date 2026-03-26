@@ -24,12 +24,12 @@ export async function createRoom(userId: string) {
       code,
       members: { create: { userId } },
     },
-    include: { members: { include: { user: { select: { id: true, username: true } } } } },
+    include: { members: { include: { user: { select: { id: true, displayName: true } } } } },
   });
 
   return {
     code: room.code,
-    members: room.members.map(m => ({ userId: m.user.id, username: m.user.username })),
+    members: room.members.map(m => ({ userId: m.user.id, displayName: m.user.displayName })),
   };
 }
 
@@ -53,13 +53,13 @@ export async function joinRoom(userId: string, code: string) {
 export async function getRoomInfo(code: string) {
   const room = await prisma.room.findUnique({
     where: { code: code.toUpperCase() },
-    include: { members: { include: { user: { select: { id: true, username: true } } } } },
+    include: { members: { include: { user: { select: { id: true, displayName: true } } } } },
   });
   if (!room) throw new Error("Room not found");
 
   return {
     code: room.code,
-    members: room.members.map(m => ({ userId: m.user.id, username: m.user.username })),
+    members: room.members.map(m => ({ userId: m.user.id, displayName: m.user.displayName })),
   };
 }
 

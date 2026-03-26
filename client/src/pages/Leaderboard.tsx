@@ -192,7 +192,7 @@ export function Leaderboard() {
                       fontWeight: isCurrentUser ? 700 : 400,
                     }}
                   >
-                    {entry.username}
+                    {entry.displayName}
                     {isCurrentUser && (
                       <span
                         className="ml-2 text-xs"
