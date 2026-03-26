@@ -1,14 +1,16 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Header } from "../../components/Header";
 import { PlayerSearchInput } from "../../components/PlayerSearchInput";
 import { PlayerCard } from "../../components/PlayerCard";
 import { StatCard } from "./StatCard";
+import { GameIntro } from "../../components/GameIntro";
+import { GAME_INTROS } from "../../data/gameIntros";
 import { useLocalScore } from "../../hooks/useLocalScore";
 import { apiFetch } from "../../api/client";
 import type { Player, StatReveal } from "../../../../shared/src/types";
 
-type GamePhase = "loading" | "playing" | "correct" | "wrong";
+type GamePhase = "intro" | "loading" | "playing" | "correct" | "wrong";
 
 const MAX_REVEALS = 4;
 
@@ -50,7 +52,7 @@ export function StatAttackGame() {
   const [player, setPlayer] = useState<Player | null>(null);
   const [stats, setStats] = useState<StatReveal[]>([]);
   const [revealedCount, setRevealedCount] = useState(0);
-  const [phase, setPhase] = useState<GamePhase>("loading");
+  const [phase, setPhase] = useState<GamePhase>("intro");
   const [roundScore, setRoundScore] = useState(0);
   const [totalScore, setTotalScore] = useState(0);
   const [roundNumber, setRoundNumber] = useState(1);
@@ -68,10 +70,6 @@ export function StatAttackGame() {
       setPhase("loading");
     }
   }, []);
-
-  useEffect(() => {
-    fetchPlayer();
-  }, [fetchPlayer]);
 
   function handleReveal() {
     if (revealedCount >= MAX_REVEALS) return;
@@ -102,6 +100,15 @@ export function StatAttackGame() {
   function handleNextRound() {
     setRoundNumber((prev) => prev + 1);
     fetchPlayer();
+  }
+
+  if (phase === "intro") {
+    return (
+      <GameIntro
+        {...GAME_INTROS["stat-attack"]}
+        onStart={() => fetchPlayer()}
+      />
+    );
   }
 
   if (phase === "loading") {

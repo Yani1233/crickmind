@@ -1,9 +1,11 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useCallback, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Header } from "../../components/Header";
 import { PlayerSearchInput } from "../../components/PlayerSearchInput";
 import { PlayerCard } from "../../components/PlayerCard";
 import { ResultScreen } from "../../components/ResultScreen";
+import { GameIntro } from "../../components/GameIntro";
+import { GAME_INTROS } from "../../data/gameIntros";
 import { GuessRow } from "./GuessRow";
 import { comparePlayer } from "../../utils/matchLogic";
 import { useLocalScore } from "../../hooks/useLocalScore";
@@ -13,12 +15,12 @@ import type { Player, WhoAmIGuess } from "../../../../shared/src/types";
 const MAX_GUESSES = 8;
 const MAX_EXCLUDE_IDS = 20;
 
-type GamePhase = "loading" | "playing" | "won" | "lost";
+type GamePhase = "intro" | "loading" | "playing" | "won" | "lost";
 
 export function WhoAmIGame() {
   const [target, setTarget] = useState<Player | null>(null);
   const [guesses, setGuesses] = useState<WhoAmIGuess[]>([]);
-  const [phase, setPhase] = useState<GamePhase>("loading");
+  const [phase, setPhase] = useState<GamePhase>("intro");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const excludeIdsRef = useRef<string[]>([]);
   const { recordScore } = useLocalScore();
@@ -43,10 +45,6 @@ export function WhoAmIGame() {
     setTarget(player);
     setPhase("playing");
   }, []);
-
-  useEffect(() => {
-    fetchTarget();
-  }, [fetchTarget]);
 
   const handleGuess = useCallback(
     async (selected: { id: string; name: string; country: string }) => {
@@ -90,6 +88,15 @@ export function WhoAmIGame() {
   const handlePlayAgain = useCallback(() => {
     fetchTarget();
   }, [fetchTarget]);
+
+  if (phase === "intro") {
+    return (
+      <GameIntro
+        {...GAME_INTROS["who-am-i"]}
+        onStart={() => fetchTarget()}
+      />
+    );
+  }
 
   if (phase === "loading") {
     return (

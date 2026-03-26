@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Header } from "../../components/Header";
 import { ResultScreen } from "../../components/ResultScreen";
+import { GameIntro } from "../../components/GameIntro";
+import { GAME_INTROS } from "../../data/gameIntros";
 import { apiFetch } from "../../api/client";
 import { useTimer } from "../../hooks/useTimer";
 import { useLocalScore } from "../../hooks/useLocalScore";
@@ -19,13 +21,13 @@ interface MysterySquad {
   difficulty: string;
 }
 
-type GamePhase = "loading" | "playing" | "result" | "error";
+type GamePhase = "intro" | "loading" | "playing" | "result" | "error";
 
 export function MysteryXIGame() {
   const navigate = useNavigate();
   const { recordScore } = useLocalScore();
 
-  const [phase, setPhase] = useState<GamePhase>("loading");
+  const [phase, setPhase] = useState<GamePhase>("intro");
   const [squad, setSquad] = useState<MysterySquad | null>(null);
   const [foundPlayers, setFoundPlayers] = useState<Set<string>>(new Set());
   const [query, setQuery] = useState("");
@@ -49,8 +51,10 @@ export function MysteryXIGame() {
     onExpire: handleTimeout,
   });
 
-  // Fetch squad on mount
+  // Fetch squad when entering loading phase
   useEffect(() => {
+    if (phase !== "loading") return;
+
     let cancelled = false;
 
     async function load() {
@@ -74,7 +78,8 @@ export function MysteryXIGame() {
     return () => {
       cancelled = true;
     };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase]);
 
   // Start timer when entering playing phase
   useEffect(() => {
@@ -171,7 +176,6 @@ export function MysteryXIGame() {
   }
 
   function handlePlayAgain() {
-    setPhase("loading");
     setSquad(null);
     setFoundPlayers(new Set());
     setQuery("");
@@ -180,17 +184,16 @@ export function MysteryXIGame() {
     setFlashWrong(false);
     setGaveUp(false);
     reset();
+    setPhase("loading");
+  }
 
-    apiFetch<MysterySquad>("/mystery/random")
-      .then((data) => {
-        if (!data || !data.players || data.players.length === 0) {
-          setPhase("error");
-          return;
-        }
-        setSquad(data);
-        setPhase("playing");
-      })
-      .catch(() => setPhase("error"));
+  if (phase === "intro") {
+    return (
+      <GameIntro
+        {...GAME_INTROS["mystery-xi"]}
+        onStart={() => setPhase("loading")}
+      />
+    );
   }
 
   if (phase === "error") {

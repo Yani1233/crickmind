@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Header } from "../../components/Header";
 import { ResultScreen } from "../../components/ResultScreen";
+import { GameIntro } from "../../components/GameIntro";
+import { GAME_INTROS } from "../../data/gameIntros";
 import { QuestionCard } from "./QuestionCard";
 import { apiFetch } from "../../api/client";
 import { useTimer } from "../../hooks/useTimer";
@@ -15,13 +17,13 @@ const TIME_PER_QUESTION = 15;
 const BASE_POINTS = 10;
 const ADVANCE_DELAY_MS = 1500;
 
-type GamePhase = "loading" | "playing" | "feedback" | "result" | "error";
+type GamePhase = "intro" | "loading" | "playing" | "feedback" | "result" | "error";
 
 export function QuickFireGame() {
   const navigate = useNavigate();
   const { recordScore } = useLocalScore();
 
-  const [phase, setPhase] = useState<GamePhase>("loading");
+  const [phase, setPhase] = useState<GamePhase>("intro");
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [results, setResults] = useState<QuickFireResult[]>([]);
@@ -45,8 +47,10 @@ export function QuickFireGame() {
     onExpire: handleTimeout,
   });
 
-  // Fetch questions on mount
+  // Fetch questions when entering loading phase
   useEffect(() => {
+    if (phase !== "loading") return;
+
     let cancelled = false;
 
     async function load() {
@@ -72,7 +76,7 @@ export function QuickFireGame() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [phase]);
 
   // Start timer when entering playing phase or advancing to next question
   useEffect(() => {
@@ -135,7 +139,6 @@ export function QuickFireGame() {
   }, [phase]);
 
   function handlePlayAgain() {
-    setPhase("loading");
     setQuestions([]);
     setCurrentIndex(0);
     setResults([]);
@@ -144,17 +147,16 @@ export function QuickFireGame() {
     setTotalScore(0);
     setStreak(0);
     reset();
+    setPhase("loading");
+  }
 
-    apiFetch<QuizQuestion[]>(`/questions?count=${QUESTION_COUNT}`)
-      .then((data) => {
-        if (!data || data.length === 0) {
-          setPhase("error");
-          return;
-        }
-        setQuestions(data);
-        setPhase("playing");
-      })
-      .catch(() => setPhase("error"));
+  if (phase === "intro") {
+    return (
+      <GameIntro
+        {...GAME_INTROS["quick-fire"]}
+        onStart={() => setPhase("loading")}
+      />
+    );
   }
 
   if (phase === "error") {

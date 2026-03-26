@@ -2,6 +2,8 @@ import { useState, useCallback, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Header } from "../../components/Header";
 import { ResultScreen } from "../../components/ResultScreen";
+import { GameIntro } from "../../components/GameIntro";
+import { GAME_INTROS } from "../../data/gameIntros";
 import { VersusCard } from "./VersusCard";
 import { apiFetch } from "../../api/client";
 import { useLocalScore } from "../../hooks/useLocalScore";
@@ -23,11 +25,11 @@ interface NextChallengerResponse {
   statCategory: StatCategory;
 }
 
-type GamePhase = "loading" | "playing" | "revealing" | "gameover";
+type GamePhase = "intro" | "loading" | "playing" | "revealing" | "gameover";
 type RevealState = "hidden" | "revealing" | "revealed";
 
 export function HigherOrLowerGame() {
-  const [phase, setPhase] = useState<GamePhase>("loading");
+  const [phase, setPhase] = useState<GamePhase>("intro");
   const [playerA, setPlayerA] = useState<Player | null>(null);
   const [playerB, setPlayerB] = useState<Player | null>(null);
   const [statCategory, setStatCategory] = useState<StatCategory | null>(null);
@@ -60,12 +62,6 @@ export function HigherOrLowerGame() {
       setError(err instanceof Error ? err.message : "Failed to load game");
     }
   }, []);
-
-  const handleInitialLoad = useRef(false);
-  if (!handleInitialLoad.current) {
-    handleInitialLoad.current = true;
-    fetchInitialPair();
-  }
 
   const handleChoose = useCallback(
     async (side: "A" | "B") => {
@@ -127,6 +123,15 @@ export function HigherOrLowerGame() {
     isProcessingRef.current = false;
     fetchInitialPair();
   }, [fetchInitialPair]);
+
+  if (phase === "intro") {
+    return (
+      <GameIntro
+        {...GAME_INTROS["higher-or-lower"]}
+        onStart={() => fetchInitialPair()}
+      />
+    );
+  }
 
   if (error) {
     return (

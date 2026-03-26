@@ -7,6 +7,8 @@ import { useUser } from "../../context/UserContext";
 import { Header } from "../../components/Header";
 import { ResultScreen } from "../../components/ResultScreen";
 import { AnimatedBackground } from "../../components/AnimatedBackground";
+import { GameIntro } from "../../components/GameIntro";
+import { GAME_INTROS } from "../../data/gameIntros";
 
 /* ── Types ────────────────────────────────────────────────────── */
 
@@ -21,7 +23,7 @@ interface ConnectionPuzzle {
   groups: ConnectionGroup[];
 }
 
-type GamePhase = "loading" | "playing" | "result" | "error";
+type GamePhase = "intro" | "loading" | "playing" | "result" | "error";
 
 /* ── Constants ────────────────────────────────────────────────── */
 
@@ -70,7 +72,7 @@ export function ConnectionsGame() {
   const { recordScore } = useLocalScore();
   const { user } = useUser();
 
-  const [phase, setPhase] = useState<GamePhase>("loading");
+  const [phase, setPhase] = useState<GamePhase>("intro");
   const [puzzle, setPuzzle] = useState<ConnectionPuzzle | null>(null);
   const [shuffledItems, setShuffledItems] = useState<string[]>([]);
   const [selected, setSelected] = useState<Set<string>>(new Set());
@@ -121,15 +123,7 @@ export function ConnectionsGame() {
     }
   }, []);
 
-  useEffect(() => {
-    let cancelled = false;
-    loadPuzzle().then(() => {
-      if (cancelled) setPhase("loading");
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [loadPuzzle]);
+  // Note: loadPuzzle() is called from onStart (intro) and handlePlayAgain
 
   /* ── Transition to result ───────────────────────────────────── */
 
@@ -194,6 +188,17 @@ export function ConnectionsGame() {
 
   function handlePlayAgain() {
     loadPuzzle();
+  }
+
+  /* ── Render: Intro ──────────────────────────────────────────── */
+
+  if (phase === "intro") {
+    return (
+      <GameIntro
+        {...GAME_INTROS["connections"]}
+        onStart={() => loadPuzzle()}
+      />
+    );
   }
 
   /* ── Render: Error ──────────────────────────────────────────── */

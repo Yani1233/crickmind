@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Header } from "../../components/Header";
 import { ResultScreen } from "../../components/ResultScreen";
+import { GameIntro } from "../../components/GameIntro";
+import { GAME_INTROS } from "../../data/gameIntros";
 import { apiFetch } from "../../api/client";
 import { useLocalScore } from "../../hooks/useLocalScore";
 
@@ -29,7 +31,7 @@ interface RoundResult {
 
 type ScoreTier = "exact" | "close" | "decent" | "far" | "miss";
 
-type GamePhase = "loading" | "playing" | "feedback" | "result" | "error";
+type GamePhase = "intro" | "loading" | "playing" | "feedback" | "result" | "error";
 
 function calculateTier(guess: number, actual: number): ScoreTier {
   const diff = Math.abs(guess - actual);
@@ -124,7 +126,7 @@ export function AuctionArenaGame() {
   const navigate = useNavigate();
   const { recordScore } = useLocalScore();
 
-  const [phase, setPhase] = useState<GamePhase>("loading");
+  const [phase, setPhase] = useState<GamePhase>("intro");
   const [entries, setEntries] = useState<AuctionEntry[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [sliderValue, setSliderValue] = useState(5.0);
@@ -134,8 +136,10 @@ export function AuctionArenaGame() {
 
   const currentEntry = entries[currentIndex] ?? null;
 
-  // Fetch entries on mount
+  // Fetch entries when entering loading phase
   useEffect(() => {
+    if (phase !== "loading") return;
+
     let cancelled = false;
 
     async function load() {
@@ -161,7 +165,8 @@ export function AuctionArenaGame() {
     return () => {
       cancelled = true;
     };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase]);
 
   // Record score on result
   useEffect(() => {
@@ -206,24 +211,22 @@ export function AuctionArenaGame() {
   }
 
   function handlePlayAgain() {
-    setPhase("loading");
     setEntries([]);
     setCurrentIndex(0);
     setSliderValue(5.0);
     setResults([]);
     setTotalScore(0);
     setLastResult(null);
+    setPhase("loading");
+  }
 
-    apiFetch<AuctionEntry[]>(`/auction/random?count=${ROUND_COUNT}`)
-      .then((data) => {
-        if (!data || data.length === 0) {
-          setPhase("error");
-          return;
-        }
-        setEntries(data);
-        setPhase("playing");
-      })
-      .catch(() => setPhase("error"));
+  if (phase === "intro") {
+    return (
+      <GameIntro
+        {...GAME_INTROS["auction-arena"]}
+        onStart={() => setPhase("loading")}
+      />
+    );
   }
 
   if (phase === "error") {

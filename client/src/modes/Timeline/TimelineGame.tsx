@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { motion, Reorder, AnimatePresence } from "framer-motion";
 import { Header } from "../../components/Header";
 import { ResultScreen } from "../../components/ResultScreen";
+import { GameIntro } from "../../components/GameIntro";
+import { GAME_INTROS } from "../../data/gameIntros";
 import { apiFetch } from "../../api/client";
 import { useLocalScore } from "../../hooks/useLocalScore";
 
@@ -16,7 +18,7 @@ interface TimelineEvent {
 const POINTS_PER_CORRECT = 2;
 const EVENT_COUNT = 6;
 
-type GamePhase = "loading" | "playing" | "revealed" | "result";
+type GamePhase = "intro" | "loading" | "playing" | "revealed" | "result";
 
 function shuffleArray<T>(array: readonly T[]): T[] {
   const shuffled = [...array];
@@ -58,13 +60,15 @@ export function TimelineGame() {
   const navigate = useNavigate();
   const { recordScore } = useLocalScore();
 
-  const [phase, setPhase] = useState<GamePhase>("loading");
+  const [phase, setPhase] = useState<GamePhase>("intro");
   const [events, setEvents] = useState<TimelineEvent[]>([]);
   const [correctOrder, setCorrectOrder] = useState<TimelineEvent[]>([]);
   const [positionResults, setPositionResults] = useState<boolean[]>([]);
   const [score, setScore] = useState(0);
 
   useEffect(() => {
+    if (phase !== "loading") return;
+
     let cancelled = false;
 
     async function load() {
@@ -74,17 +78,14 @@ export function TimelineGame() {
         );
         if (cancelled) return;
 
-        if (!data || data.length === 0) {
-          setPhase("loading");
-          return;
-        }
+        if (!data || data.length === 0) return;
 
         const sorted = [...data].sort((a, b) => a.year - b.year);
         setCorrectOrder(sorted);
         setEvents(shuffleArray(data));
         setPhase("playing");
       } catch {
-        if (!cancelled) setPhase("loading");
+        // stay in loading
       }
     }
 
@@ -92,7 +93,8 @@ export function TimelineGame() {
     return () => {
       cancelled = true;
     };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase]);
 
   function handleLockIn() {
     if (phase !== "playing") return;
@@ -112,21 +114,20 @@ export function TimelineGame() {
   }
 
   function handlePlayAgain() {
-    setPhase("loading");
     setEvents([]);
     setCorrectOrder([]);
     setPositionResults([]);
     setScore(0);
+    setPhase("loading");
+  }
 
-    apiFetch<TimelineEvent[]>(`/timeline/random?count=${EVENT_COUNT}`)
-      .then((data) => {
-        if (!data || data.length === 0) return;
-        const sorted = [...data].sort((a, b) => a.year - b.year);
-        setCorrectOrder(sorted);
-        setEvents(shuffleArray(data));
-        setPhase("playing");
-      })
-      .catch(() => {});
+  if (phase === "intro") {
+    return (
+      <GameIntro
+        {...GAME_INTROS["timeline"]}
+        onStart={() => setPhase("loading")}
+      />
+    );
   }
 
   if (phase === "loading") {
