@@ -13,6 +13,7 @@ import { ConnectionsGame } from "./modes/Connections/ConnectionsGame";
 import { TimelineGame } from "./modes/Timeline/TimelineGame";
 import { MysteryXIGame } from "./modes/MysteryXI/MysteryXIGame";
 import { AuctionArenaGame } from "./modes/AuctionArena/AuctionArenaGame";
+import { FranchiseTrailGame } from "./modes/FranchiseTrail/FranchiseTrailGame";
 import { Leaderboard } from "./pages/Leaderboard";
 import type { ReactNode } from "react";
 
@@ -111,6 +112,14 @@ export function App() {
                 element={
                   <RequireAuth>
                     <AuctionArenaGame />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/franchise-trail"
+                element={
+                  <RequireAuth>
+                    <FranchiseTrailGame />
                   </RequireAuth>
                 }
               />

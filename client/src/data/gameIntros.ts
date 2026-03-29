@@ -154,6 +154,27 @@ export const GAME_INTROS = {
       "Way off: 0 points",
     ],
   },
+  "franchise-trail": {
+    title: "Franchise Trail",
+    icon: "\uD83C\uDFCF",
+    description:
+      "Trace a player's IPL journey across franchises and guess who they are.",
+    howToPlay: [
+      "A mystery IPL player's franchise history is revealed one stint at a time",
+      "Each stint shows the team and years they played for that franchise",
+      "Guess the player at any time using the search box",
+      "Wrong guesses auto-reveal the next stint",
+      "You have 5 rounds per game",
+    ],
+    scoring: [
+      "Guess after 1 stint: 5 points",
+      "After 2 stints: 4 points",
+      "After 3 stints: 3 points",
+      "After 4 stints: 2 points",
+      "After all stints: 1 point",
+      "Failed to guess: 0 points",
+    ],
+  },
 } as const;
 
 export type GameIntroKey = keyof typeof GAME_INTROS;

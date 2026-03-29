@@ -78,6 +78,15 @@ const MODES = [
     minPlayers: 0,
     minQuestions: 0,
   },
+  {
+    title: "Franchise Trail",
+    description: "Trace an IPL player's journey across franchises",
+    icon: "\uD83C\uDFCF",
+    route: "/franchise-trail",
+    mode: "franchise-trail" as const,
+    minPlayers: 0,
+    minQuestions: 0,
+  },
 ];
 
 export function Hub() {

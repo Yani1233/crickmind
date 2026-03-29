@@ -29,7 +29,8 @@ export type GameMode =
   | "connections"
   | "timeline"
   | "mystery-xi"
-  | "auction-arena";
+  | "auction-arena"
+  | "franchise-trail";
 
 export interface Player {
   id: string;
@@ -77,6 +78,19 @@ export interface AttributeGuessResult {
 export interface WhoAmIGuess {
   player: Player;
   results: AttributeGuessResult[];
+}
+
+// Franchise Trail types
+export interface IplStint {
+  team: string;
+  startYear: number;
+  endYear: number;
+}
+
+export interface IplCareerData {
+  playerName: string;
+  stints: IplStint[];
+  totalTeams: number;
 }
 
 // Stat Attack types

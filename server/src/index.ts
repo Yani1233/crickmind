@@ -12,6 +12,7 @@ import { connectionRouter } from "./routes/connections.js";
 import { timelineRouter } from "./routes/timeline.js";
 import { mysteryRouter } from "./routes/mystery.js";
 import { auctionRouter } from "./routes/auction.js";
+import { franchiseTrailRouter } from "./routes/franchiseTrail.js";
 
 const app = express();
 const port = process.env.PORT ?? 3001;
@@ -41,6 +42,7 @@ app.use("/api/connections", connectionRouter);
 app.use("/api/timeline", timelineRouter);
 app.use("/api/mystery", mysteryRouter);
 app.use("/api/auction", auctionRouter);
+app.use("/api/franchise-trail", franchiseTrailRouter);
 
 app.use(errorHandler);
 
